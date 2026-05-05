@@ -6,7 +6,7 @@ export default function TermsAndConditions() {
     <PolicyLayout
       title="Terms & Conditions"
       subtitle="Read our legal terms and conditions for using our services."
-      lastUpdated="Apr 22, 2026"
+      lastUpdated="May 05 2026"
     >
       <section>
         <h2>Agreement To Our Legal Terms</h2>

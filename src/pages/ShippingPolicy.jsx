@@ -7,7 +7,7 @@ export default function ShippingPolicy() {
     <PolicyLayout
       title="Shipping Policy"
       subtitle="Read our shipping and delivery options, timeframes, and policies."
-      lastUpdated="Apr 22, 2026"
+      lastUpdated="May 05 2026"
     >
       <p className="lead">
         This Shipping & Delivery Policy is part of our Terms and Conditions ("Terms") and should be therefore read alongside our main Terms: <Link to="/terms-and-conditions">https://thezenvix.co/terms-and-conditions</Link>.

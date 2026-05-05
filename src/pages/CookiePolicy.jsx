@@ -7,7 +7,7 @@ export default function CookiePolicy() {
     <PolicyLayout
       title="Cookie Policy"
       subtitle="Learn about how we use cookies and similar technologies on our website."
-      lastUpdated="Apr 22, 2026"
+      lastUpdated="May 05 2026"
     >
       <p className="lead">
         This Cookie Policy explains how The Zenvix LLC ("Company," "we," "us," or "our") uses cookies and similar technologies when you visit our website: <a href="https://thezenvix.co/">https://thezenvix.co/</a>

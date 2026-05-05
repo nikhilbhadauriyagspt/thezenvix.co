@@ -140,21 +140,19 @@ export default function Hero({ products = [] }) {
       <div className="w-full border-b border-[#e8e8e8] bg-white overflow-hidden mt-0 mx-10">
         <div className="flex w-max animate-marquee whitespace-nowrap">
           {[
-            "Subscribe and get 10% off your first purchase",
-            "Great-free returns product within 10 days",
-            "Subscribe and get 10% off your first purchase",
-            "Great-free returns product within 10 days",
-            "Subscribe and get 10% off your first purchase",
-            "Great-free returns product within 10 days",
+            "Simple shopping for printers, ink, toner, and accessories",
+            "Clear product details for easy browsing",
+            "Secure checkout for every order",
+            "Carefully packed printer products",
+            "Useful Products for home and office printing",
+            "Browse selected printer products in one place",
 
-            "Subscribe and get 10% off your first purchase",
-            "Great-free returns product within 10 days",
-            "Subscribe and get 10% off your first purchase",
-            "Great-free returns product within 10 days",
-            "Subscribe and get 10% off your first purchase",
-            "Great-free returns product within 10 days",
-
-
+            "Simple shopping for printers, ink, toner, and accessories",
+            "Clear product details for easy browsing",
+            "Secure checkout for every order",
+            "Carefully packed printer products",
+            "Useful Products for home and office printing",
+            "Browse selected printer products in one place",
           ].map((text, index) => (
             <div
               key={index}

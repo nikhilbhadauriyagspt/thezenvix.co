@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
     <PolicyLayout
       title="Privacy Policy"
       subtitle="Our commitment to protecting your personal information and privacy."
-      lastUpdated="Apr 22, 2026"
+      lastUpdated="May 05 2026"
     >
       <p className="lead">
         This Privacy Notice for The Zenvix LLC ("we," "us," or "our"), describes how and why we might access, collect, store, use, and/or share ("process") your personal information when you use our services ("Services"), including when you:
