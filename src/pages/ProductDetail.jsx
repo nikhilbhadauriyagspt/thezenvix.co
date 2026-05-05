@@ -178,7 +178,7 @@ export default function ProductDetail() {
       <SEO title={product.name} />
 
       <section className="w-full bg-white py-14">
-        <div className="max-w-[1500px] mx-auto px-4">
+        <div className="max-w-[1800px] mx-auto px-4">
           <div className="rounded-[14px] border-2 border-black p-8 md:p-12">
             <nav className="flex items-center gap-2 text-[12px] font-bold text-gray-400 mb-6">
               <Link to="/" className="hover:text-[#d4aa72] transition">
@@ -199,14 +199,14 @@ export default function ProductDetail() {
               </span>
             </div>
 
-            <h1 className="text-[38px] md:text-[56px] font-extrabold leading-tight max-w-[1100px]">
+            <h1 className="text-[25px] md:text-[40px] font-extrabold leading-tight max-w-[1100px]">
               {product.name}
             </h1>
           </div>
         </div>
       </section>
 
-      <div className="max-w-[1500px] mx-auto px-4">
+      <div className="max-w-[1800px] mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-6">
             <div className="flex flex-col md:flex-row gap-5">
@@ -224,8 +224,8 @@ export default function ProductDetail() {
                         setMainImage(img);
                       }}
                       className={`w-20 h-20 rounded-[10px] border-2 p-2 bg-white shrink-0 transition ${activeImage === idx
-                          ? "border-black"
-                          : "border-gray-200 hover:border-black"
+                        ? "border-black"
+                        : "border-gray-200 hover:border-black"
                         }`}
                     >
                       <img
@@ -389,8 +389,8 @@ export default function ProductDetail() {
                   <button
                     onClick={handleAddToCart}
                     className={`h-[54px] rounded-full text-[13px] font-bold transition flex items-center justify-center gap-3 ${isAdded
-                        ? "bg-[#d4aa72] text-white"
-                        : "bg-black text-white hover:bg-[#d4aa72]"
+                      ? "bg-[#d4aa72] text-white"
+                      : "bg-black text-white hover:bg-[#d4aa72]"
                       }`}
                   >
                     <ShoppingCart size={18} />
@@ -536,12 +536,6 @@ export default function ProductDetail() {
         }
         .no-scrollbar {
           -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
-    </div>
-  );
-} -ms-overflow-style: none;
           scrollbar-width: none;
         }
       `}</style>
