@@ -185,11 +185,7 @@ export default function Footer() {
 
         <div className="pb-12 text-[12px] text-gray-400 leading-relaxed max-w-[1200px] mx-auto text-center border-t border-slate-100 pt-8 mt-4">
           <p>
-            The Zenvix is a professional e-commerce platform dedicated to providing high-performance imaging hardware and original printing supplies. 
-            We specialize in a wide range of products including advanced inkjet devices, precision laser units, and high-efficiency multi-function 
-            machines for both personal and professional environments. Our mission is to deliver reliable hardware from leading manufacturers directly 
-            to your doorstep with nationwide shipping and official brand warranties. We focus exclusively on the sale of new hardware and genuine 
-            imaging tools, ensuring a professional and transparent shopping experience for all our customers.
+            Welcome to our online store, your destination for quality printers and high-quality refills. We offer a wide range of devices, from simple home models to efficient machines for business use. Our collection includes inkjet and laser options, along with all the ink and toner you need to keep them running smoothly. We are committed to providing reliable products and fast shipping across the country.
           </p>
         </div>
       </div>

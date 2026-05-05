@@ -7,49 +7,35 @@ const SEOTextSection = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                     <div>
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-6">
-                            Premier Destination for Professional <span className="text-[#05718A]">Imaging Hardware</span>
+                            Find the Perfect <span className="text-[#05718A]">Printing Tools</span> for Every Task
                         </h2>
                         <div className="space-y-4 text-slate-600 leading-relaxed font-medium text-[15px] md:text-[16px]">
                             <p>
-                                At The Zenvix, we pride ourselves on being a specialized retailer for high-performance
-                                printing machines and professional office equipment. Our curated selection encompasses
-                                a wide array of document production tools, from efficient inkjet systems for personal
-                                workspaces to robust laser-based units for enterprise-level demands.
+                                We believe that finding the right equipment for your desk should be an easy and enjoyable experience. Our store is dedicated to offering a wide selection of machines that are perfect for everything from simple home use to more demanding office work. We focus on providing reliable options that are known for their quality, so you can feel confident that your new purchase will handle your daily tasks with ease.
                             </p>
                             <p>
-                                We understand that reliability is paramount when it comes to business hardware. That is
-                                why every device in our inventory is selected for its technological excellence and
-                                consistent output quality. By focusing on verified hardware from industry leaders,
-                                we ensure that our customers receive only the most dependable imaging solutions
-                                available in the market today.
+                                Whether you need to print colorful photos for a project or need a fast machine for text documents, we have something that will fit your needs. Our collection includes many different models, including those with modern wireless features that let you print from almost anywhere in your home. We strive to offer tools that are simple to use, helping you stay organized and productive without any unnecessary stress or complicated steps.
+                            </p>
+                            <p>
+                                Our goal is to be your go-to destination for all things related to home and office document production. By carefully choosing the items in our shop, we make it simple for you to browse and find exactly what you are looking for. We are a retail-focused business, which means we spend our time finding the best products to bring to you at great prices.
                             </p>
                         </div>
                     </div>
 
                     <div className="space-y-6">
                         <div className="bg-slate-50 p-8 rounded-[32px] border border-slate-100">
-                            <h3 className="text-xl font-bold text-slate-900 mb-4">Quality Genuine Supplies</h3>
+                            <h3 className="text-xl font-bold text-slate-900 mb-4">High-Quality Ink and Toner</h3>
                             <p className="text-slate-600 leading-relaxed font-medium text-[15px]">
-                                Beyond our primary hardware collection, we provide an extensive range of authentic
-                                supplies to maintain your imaging workflow. Our inventory includes high-capacity
-                                toner cartridges, premium ink units, and essential maintenance kits, all designed
-                                to work seamlessly with your specific hardware model for optimal results.
+                                To keep your prints looking sharp and clear, it is important to have the right supplies on hand. We stock a full range of ink and toner refills that are designed to work perfectly with the models we sell. Whether you are looking for standard black ink or a variety of colors, you can find them in our store and have them delivered right to your door. We focus on providing high-quality printing essentials so you can get the best results every time you use your machine.
                             </p>
                         </div>
 
                         <div className="space-y-4 text-slate-600 leading-relaxed font-medium text-[15px]">
                             <p>
-                                Choosing the right document hardware can be complex, which is why our platform
-                                provides comprehensive technical data and clear product categories. We aim to
-                                simplify the procurement process for both individual buyers and professional
-                                organizations, offering a straightforward path to acquiring the latest
-                                imaging technology with confidence.
+                                We understand that choosing new equipment can be a big decision, so we provide clear and easy-to-read information for everything we sell. Our website is designed to help you quickly find the features that matter most to you, from printing speeds to connection options. We want you to be well-informed before you buy, ensuring that you get a product that meets all your expectations.
                             </p>
                             <p>
-                                Our commitment extends beyond the point of sale. We offer efficient nationwide
-                                shipping and ensure that all equipment is protected by standard manufacturer
-                                warranties. At The Zenvix, your professional productivity is our priority, and
-                                we are here to provide the tools you need to succeed in every printing task.
+                                When you shop with us, you can count on reliable service and fast shipping across the country. We take pride in being a retail store that delivers quality items directly to our customers. Please remember that we focus exclusively on retail sales.
                             </p>
                         </div>
                     </div>
