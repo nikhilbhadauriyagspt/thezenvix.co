@@ -41,7 +41,7 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="w-full bg-[#fff] py-16 md:py-24 overflow-hidden">
+    <section className="w-full bg-[#fff] py-16 md:py-24 hidden">
       <div className="max-w-[1700px] mx-auto px-4 md:px-8 relative">
         <div className="absolute top-0 left-5 w-24 h-20 md:w-20 md:h-20 bg-blue-100 rounded-full blur-[40px] opacity-40" />
 

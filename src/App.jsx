@@ -27,6 +27,7 @@ const CookiePolicy = lazy(() => import('./pages/CookiePolicy'));
 const TermsAndConditions = lazy(() => import('./pages/TermsAndConditions'));
 const ReturnPolicy = lazy(() => import('./pages/ReturnPolicy'));
 const ShippingPolicy = lazy(() => import('./pages/ShippingPolicy'));
+const EditorialPolicy = lazy(() => import('./pages/EditorialPolicy'));
 const Cart = lazy(() => import('./pages/Cart'));
 const Wishlist = lazy(() => import('./pages/Wishlist'));
 const Compare = lazy(() => import('./pages/Compare'));
@@ -109,6 +110,7 @@ function App() {
                 <Route path="/terms-and-conditions" element={<ShopLayout><TermsAndConditions /></ShopLayout>} />
                 <Route path="/return-policy" element={<ShopLayout><ReturnPolicy /></ShopLayout>} />
                 <Route path="/shipping-policy" element={<ShopLayout><ShippingPolicy /></ShopLayout>} />
+                <Route path="/editorial-policy" element={<ShopLayout><EditorialPolicy /></ShopLayout>} />
                 <Route path="/login" element={<ShopLayout><UserLogin /></ShopLayout>} />
                 <Route path="/signup" element={<ShopLayout><UserSignup /></ShopLayout>} />
 

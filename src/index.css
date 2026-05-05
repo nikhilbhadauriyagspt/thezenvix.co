@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
-
 :root {
   --font-sans: 'Google Sans', sans-serif;
   --primary: [#0096d6];
@@ -37,6 +35,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background);
   color: var(--foreground);
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #05718A;
+  color: white;
+  padding: 8px;
+  z-index: 1001;
+  transition: top 0.3s;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 @layer utilities {

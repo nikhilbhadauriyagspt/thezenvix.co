@@ -35,6 +35,7 @@ export default function Hero({ products = [] }) {
             src="/banner/new-banner/banner_02.png"
             alt="Printer hero"
             className="absolute inset-0 w-full h-full object-cover object-center"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-black/10" />
         </div>

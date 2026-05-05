@@ -95,6 +95,7 @@ export default function BundleSaveSection({ products = [], loading = false }) {
                                             <div className="relative group/tooltip">
                                                 <button
                                                     onClick={() => toggleWishlist(product)}
+                                                    aria-label={inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
                                                     className="w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition"
                                                 >
                                                     <Heart size={15} fill={inWishlist ? "currentColor" : "none"} />
@@ -107,6 +108,7 @@ export default function BundleSaveSection({ products = [], loading = false }) {
                                             <div className="relative group/tooltip">
                                                 <button
                                                     onClick={() => toggleCompare(product)}
+                                                    aria-label="Compare Product"
                                                     className="w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition"
                                                 >
                                                     <Layers size={15} />
@@ -119,6 +121,7 @@ export default function BundleSaveSection({ products = [], loading = false }) {
                                             <div className="relative group/tooltip">
                                                 <Link
                                                     to={`/product/${product.slug}`}
+                                                    aria-label="View Product Details"
                                                     className="w-9 h-9 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition"
                                                 >
                                                     <Eye size={15} />

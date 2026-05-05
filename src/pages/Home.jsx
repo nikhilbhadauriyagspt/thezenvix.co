@@ -10,6 +10,7 @@ import { useGlobalData } from "../context/DataContext";
 import PremiumProductGrid from "@/components/PremiumProductGrid";
 import CategoryHighlights from "@/components/CategoryHighlights";
 import BundleSaveSection from "@/components/BundleSaveSection";
+import SEOTextSection from "@/components/SEOTextSection";
 
 import Mainsecimg from "/midbanner/images-7.avif";
 
@@ -63,6 +64,8 @@ export default function Home() {
         loading={loading}
       />
 
+      <AboutSection className="hidden" />
+      <SEOTextSection className="hidden" />
 
     </div>
   );

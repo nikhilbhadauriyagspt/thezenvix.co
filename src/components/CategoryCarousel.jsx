@@ -81,7 +81,14 @@ export default function CategoryCarousel() {
           }}
           autoplay={{ delay: 5000, disableOnInteraction: false }}
           spaceBetween={25}
-          slidesPerView={"auto"}
+          breakpoints={{
+            320: { slidesPerView: 2.5, spaceBetween: 15 },
+            480: { slidesPerView: 3.5, spaceBetween: 15 },
+            768: { slidesPerView: 4.5, spaceBetween: 20 },
+            1024: { slidesPerView: 5.5, spaceBetween: 25 },
+            1280: { slidesPerView: 6.5, spaceBetween: 25 },
+            1536: { slidesPerView: 8.5, spaceBetween: 25 },
+          }}
           className="!overflow-visible "
         >
           {categories.map((cat) => (

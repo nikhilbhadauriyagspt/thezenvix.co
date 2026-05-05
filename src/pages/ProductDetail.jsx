@@ -34,9 +34,15 @@ export default function ProductDetail() {
   const [mainImage, setMainImage] = useState("/logo/fabicon.avif");
   const [zoomStyle, setZoomStyle] = useState({ display: "none" });
   const [zoomBgPos, setZoomBgPos] = useState("0% 0%");
+  const [containerRect, setContainerRect] = useState(null);
+
+  const handleMouseEnter = (e) => {
+    setContainerRect(e.currentTarget.getBoundingClientRect());
+  };
 
   const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+    if (!containerRect) return;
+    const { left, top, width, height } = containerRect;
     const x = ((e.pageX - left - window.scrollX) / width) * 100;
     const y = ((e.pageY - top - window.scrollY) / height) * 100;
     setZoomBgPos(`${x}% ${y}%`);
@@ -45,6 +51,7 @@ export default function ProductDetail() {
 
   const handleMouseLeave = () => {
     setZoomStyle({ display: "none" });
+    setContainerRect(null);
   };
 
   const handleAddToCart = () => {
@@ -233,6 +240,7 @@ export default function ProductDetail() {
 
               <div
                 className="relative flex-1 aspect-square rounded-[14px] bg-[#f1f1f1] border-2 border-black flex items-center justify-center p-8 md:p-12 overflow-hidden cursor-crosshair order-1 md:order-2"
+                onMouseEnter={handleMouseEnter}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
               >
@@ -258,6 +266,7 @@ export default function ProductDetail() {
 
                 <button
                   onClick={() => toggleWishlist(product)}
+                  aria-label={isInWishlist(product.id) ? "Remove from Wishlist" : "Add to Wishlist"}
                   className="absolute top-5 right-5 w-11 h-11 rounded-full bg-white flex items-center justify-center hover:bg-black hover:text-white transition"
                 >
                   <Heart
@@ -526,6 +535,12 @@ export default function ProductDetail() {
         }
         .no-scrollbar {
           -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </div>
+  );
+} -ms-overflow-style: none;
           scrollbar-width: none;
         }
       `}</style>

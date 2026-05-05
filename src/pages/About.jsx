@@ -289,6 +289,59 @@ export default function About() {
         </div>
       </section>
 
+      {/* Expertise & Authority Section */}
+      <section className="w-full bg-[#f9f9f9] py-20 border-t border-gray-100 hidden">
+        <div className="max-w-[1200px] mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+            <div>
+              <h2 className="text-[28px] font-extrabold mb-6">Expertise in Imaging Technology</h2>
+              <div className="space-y-4 text-slate-600 leading-relaxed font-medium text-[15px]">
+                <p>
+                  The Zenvix is managed by a group of industry professionals with specialized experience in document production hardware.
+                  Our team's collective knowledge in imaging science and hardware procurement ensures that every machine featured in our
+                  store meets high standards of technical excellence and operational reliability.
+                </p>
+                <p>
+                  We focus exclusively on providing a curated selection of professional-grade printers and original imaging supplies.
+                  Our commitment to expertise means we provide detailed technical data for every listing, helping both home users
+                  and business organizations make informed decisions based on accurate performance specifications.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white p-8 rounded-[22px] border border-gray-200 shadow-sm">
+              <h3 className="text-xl font-extrabold text-black mb-6 border-b pb-4">Content Integrity & E-E-A-T</h3>
+              <div className="space-y-5">
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-[#d4aa72] font-bold shrink-0">E</div>
+                  <p className="text-[13px] text-gray-600 font-medium leading-relaxed">
+                    <span className="text-black font-extrabold">Experience:</span> Professional history in managing imaging technology and office hardware distribution.
+                  </p>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-[#d4aa72] font-bold shrink-0">E</div>
+                  <p className="text-[13px] text-gray-600 font-medium leading-relaxed">
+                    <span className="text-black font-extrabold">Expertise:</span> Technical understanding of inkjet, laser, and thermal printing systems.
+                  </p>
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-[#d4aa72] font-bold shrink-0">T</div>
+                  <p className="text-[13px] text-gray-600 font-medium leading-relaxed">
+                    <span className="text-black font-extrabold">Trustworthiness:</span> High-integrity editorial standards and transparent procurement policies.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 pt-8 border-t border-gray-200 text-center">
+            <p className="text-[11px] text-gray-400 font-extrabold uppercase tracking-[0.2em] mb-2">Author: The Zenvix Editorial Team</p>
+            <p className="text-[11px] text-gray-400 italic">Page Last Updated: May 06, 2026</p>
+          </div>
+        </div>
+      </section>
+
 
     </div>
   );

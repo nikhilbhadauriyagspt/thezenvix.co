@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight, ShieldCheck } from "lucide-react";
 import API_BASE_URL from "../config";
 
 export default function Footer() {
@@ -130,6 +130,12 @@ export default function Footer() {
               >
                 Terms & Conditions
               </Link>
+              <Link
+                to="/editorial-policy"
+                className="block hover:text-[#d4aa72] transition"
+              >
+                Editorial Policy
+              </Link>
             </div>
           </div>
 
@@ -153,6 +159,11 @@ export default function Footer() {
         <div className="border-t border-black py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px] text-gray-500">
           <p>© {new Date().getFullYear()} The Zenvix. All rights reserved.</p>
 
+          <div className="flex items-center gap-4 py-2 px-4 bg-gray-50 rounded-lg border border-gray-100">
+            <ShieldCheck size={16} className="text-[#d4aa72]" />
+            <span className="font-bold text-[11px] uppercase tracking-widest text-black">Secure Checkout & Official Warranty</span>
+          </div>
+
           <div className="flex flex-wrap justify-center gap-5">
             <Link to="/shipping-policy" className="hover:text-[#d4aa72] transition">
               Shipping
@@ -170,6 +181,16 @@ export default function Footer() {
               Terms
             </Link>
           </div>
+        </div>
+
+        <div className="pb-12 text-[12px] text-gray-400 leading-relaxed max-w-[1200px] mx-auto text-center border-t border-slate-100 pt-8 mt-4">
+          <p>
+            The Zenvix is a professional e-commerce platform dedicated to providing high-performance imaging hardware and original printing supplies. 
+            We specialize in a wide range of products including advanced inkjet devices, precision laser units, and high-efficiency multi-function 
+            machines for both personal and professional environments. Our mission is to deliver reliable hardware from leading manufacturers directly 
+            to your doorstep with nationwide shipping and official brand warranties. We focus exclusively on the sale of new hardware and genuine 
+            imaging tools, ensuring a professional and transparent shopping experience for all our customers.
+          </p>
         </div>
       </div>
     </footer>
