@@ -7,17 +7,17 @@ import { DataProvider } from './context/DataContext';
 // Core Components (Immediate load for critical UI)
 import ScrollToTop from './components/ScrollToTop';
 import Toast from './components/Toast';
+import Header from './components/Header';
+import Home from './pages/Home';
 
 // Lazy load Layout/Utility components to reduce initial JS weight
-const Header = lazy(() => import('./components/Header'));
 const Footer = lazy(() => import('./components/Footer'));
 const CartDrawer = lazy(() => import('./components/CartDrawer'));
 const SearchOverlay = lazy(() => import('./components/SearchOverlay'));
 const BottomNav = lazy(() => import('./components/BottomNav'));
 const CookieConsent = lazy(() => import('./components/CookieConsent'));
 
-// Lazy load pages
-const Home = lazy(() => import('./pages/Home'));
+// Lazy load non-critical pages
 const Shop = lazy(() => import('./pages/Shop'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const About = lazy(() => import('./pages/About'));
@@ -61,9 +61,7 @@ const PageLoader = () => (
 // Layout wrapper for customer-facing pages
 const ShopLayout = ({ children }) => (
   <div className="bg-white min-h-screen flex flex-col">
-    <Suspense fallback={<div className="h-20 bg-white border-b border-slate-100" />}>
-      <Header />
-    </Suspense>
+    <Header />
     <main className="flex-grow">
       {children}
     </main>

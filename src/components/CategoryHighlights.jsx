@@ -4,32 +4,27 @@ import { Link } from "react-router-dom";
 const categories = [
     {
         name: "Inkjet Printers",
-        image: "/banner/category-imges/inkjet-printers_med.avif",
-        webp: "/banner/category-imges/inkjet-printers_med.webp",
+        base: "/banner/category-imges/inkjet-printers",
         link: "/shop?category=inkjet-printers",
     },
     {
         name: "Laser Printers",
-        image: "/banner/category-imges/laser-printers_med.avif",
-        webp: "/banner/category-imges/laser-printers_med.webp",
+        base: "/banner/category-imges/laser-printers",
         link: "/shop?category=laser-printers",
     },
     {
         name: "Large Format",
-        image: "/banner/category-imges/large-format-printers_med.avif",
-        webp: "/banner/category-imges/large-format-printers_med.webp",
+        base: "/banner/category-imges/large-format-printers",
         link: "/shop?category=large-format-printers",
     },
     {
         name: "Supertank Printers",
-        image: "/banner/category-imges/supertank-printers_med.avif",
-        webp: "/banner/category-imges/supertank-printers_med.webp",
+        base: "/banner/category-imges/supertank-printers",
         link: "/shop?category=supertank-printers",
     },
     {
         name: "Printer Accessories",
-        image: "/banner/category-imges/printer-accessories_med.avif",
-        webp: "/banner/category-imges/printer-accessories_med.webp",
+        base: "/banner/category-imges/printer-accessories",
         link: "/shop?category=printer-accessories",
     },
 ];
@@ -55,10 +50,18 @@ export default function CategoryHighlights() {
                             className="relative h-[550px] rounded-[18px] overflow-hidden group cursor-pointer block bg-gray-100"
                         >
                             <picture>
-                                <source srcSet={cat.image} type="image/avif" />
-                                <source srcSet={cat.webp} type="image/webp" />
+                                <source 
+                                    srcSet={`${cat.base}_thumb.avif 300w, ${cat.base}_med.avif 600w`} 
+                                    sizes="(max-width: 640px) 300px, 600px"
+                                    type="image/avif" 
+                                />
+                                <source 
+                                    srcSet={`${cat.base}_thumb.webp 300w, ${cat.base}_med.webp 600w`} 
+                                    sizes="(max-width: 640px) 300px, 600px"
+                                    type="image/webp" 
+                                />
                                 <img
-                                    src={cat.image.replace('.avif', '.png')}
+                                    src={`${cat.base}_med.avif`}
                                     alt={cat.name}
                                     width="413"
                                     height="689"

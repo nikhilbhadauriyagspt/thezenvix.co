@@ -32,13 +32,23 @@ export default function Hero({ products = [] }) {
         {/* Main Banner */}
         <div className="relative h-full rounded-[20px] overflow-hidden bg-[#d7c4ad]">
           <picture>
-            <source srcSet="/banner/new-banner/banner_02.avif" type="image/avif" />
-            <source srcSet="/banner/new-banner/banner_02.webp" type="image/webp" />
+            <source
+              srcSet="/banner/new-banner/banner_02_med.avif 600w, /banner/new-banner/banner_02.avif 1200w"
+              sizes="(max-width: 600px) 600px, 1200px"
+              type="image/avif"
+            />
+            <source
+              srcSet="/banner/new-banner/banner_02_med.webp 600w, /banner/new-banner/banner_02.webp 1200w"
+              sizes="(max-width: 600px) 600px, 1200px"
+              type="image/webp"
+            />
             <img
               src="/banner/new-banner/banner_02.png"
               alt="Printer hero"
               className="absolute inset-0 w-full h-full object-cover object-center"
               fetchpriority="high"
+              width="1200"
+              height="750"
             />
           </picture>
           <div className="absolute inset-0 bg-black/10" />
@@ -55,7 +65,7 @@ export default function Hero({ products = [] }) {
             <div className="absolute -top-[44px] right-0 w-[44px] h-[44px] bg-transparent rounded-br-[28px] shadow-[14px_14px_0_0_white]"></div>
           </div>
 
-          <div className="relative p-8">
+          <div className="relative p-8 hidden md:block">
             <Swiper
               modules={[Autoplay, EffectFade]}
               autoplay={{ delay: 5000, disableOnInteraction: false }}

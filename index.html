@@ -47,7 +47,10 @@
   <meta http-equiv="alt-svc" content="h3=':443'; ma=86400">
 
   <!-- 2. Preload critical assets -->
-  <link rel="preload" as="image" href="/banner/new-banner/banner_02.avif" fetchpriority="high">
+  <link rel="preload" as="image" href="/banner/new-banner/banner_02.avif" 
+    imagesrcset="/banner/new-banner/banner_02_med.avif 600w, /banner/new-banner/banner_02.avif 1200w" 
+    imagesizes="(max-width: 600px) 600px, 1200px"
+    fetchpriority="high">
   <link rel="preload" as="fetch" href="https://api.inklivo.shop/public/categories" crossorigin="anonymous">
 
   <!-- 3. Optimized Font Loading -->
