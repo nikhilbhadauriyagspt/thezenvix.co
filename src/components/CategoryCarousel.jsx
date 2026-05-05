@@ -44,8 +44,8 @@ export default function CategoryCarousel() {
   if (categories.length === 0) return null;
 
   return (
-    <section className="w-full py-14 bg-[#F5F5F5] overflow-hidden">
-      <div className="max-w-[1700px] mx-auto px-4 md:px-0 relative overflow-hidden">
+    <section className="w-full py-14 bg-[#Fff] overflow-hidden">
+      <div className="max-w-[1800px] mx-auto px-4 md:px-0 relative overflow-hidden">
 
         {/* Section Header - Very Clean */}
         <div className="flex items-center justify-between mb-8">
@@ -57,13 +57,13 @@ export default function CategoryCarousel() {
           </div>
 
           <div className="flex items-center gap-2">
-            <button 
+            <button
               aria-label="Previous categories"
               className="category-prev w-9 h-9 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#05718A] hover:border-[#05718A] transition-all bg-white shadow-sm active:scale-90"
             >
               <ChevronLeft size={18} />
             </button>
-            <button 
+            <button
               aria-label="Next categories"
               className="category-next w-9 h-9 rounded-full border border-slate-100 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#05718A] hover:border-[#05718A] transition-all bg-white shadow-sm active:scale-90"
             >

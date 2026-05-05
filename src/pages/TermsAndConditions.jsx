@@ -11,19 +11,19 @@ export default function TermsAndConditions() {
       <section>
         <h2>Agreement To Our Legal Terms</h2>
         <p>
-          We are Print Sphere LLC ("Company," "we," "us," "our"), a company registered in New York, United States.
+          We are The Zenvix LLC ("Company," "we," "us," "our"), a company registered in New York, United States.
         </p>
         <p>
-          We operate the website <a href="http://printsphere.co/">http://printsphere.co/</a> (the "Site"), as well as any other related products and services that refer or link to these legal terms (the "Legal Terms") (collectively, the "Services").
+          We operate the website <a href="http://thezenvix.co/">http://thezenvix.co/</a> (the "Site"), as well as any other related products and services that refer or link to these legal terms (the "Legal Terms") (collectively, the "Services").
         </p>
         <p>
-          Print Sphere Solutions provides a wide range of high-performance printers and printing accessories from leading technology brands.
+          The Zenvix Solutions provides a wide range of high-performance printers and printing accessories from leading technology brands.
         </p>
         <p>
-          You can contact us by email at <a href="mailto:info@printsphere.co">info@printsphere.co</a>.
+          You can contact us by email at <a href="mailto:info@thezenvix.co">info@thezenvix.co</a>.
         </p>
         <p>
-          These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("you"), and Print Sphere LLC, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. <strong>IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</strong>
+          These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("you"), and The Zenvix LLC, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. <strong>IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.</strong>
         </p>
         <p>
           Supplemental terms and conditions or documents that may be posted on the Services from time to time are hereby expressly incorporated herein by reference. We reserve the right, in our sole discretion, to make changes or modifications to these Legal Terms at any time and for any reason. We will alert you about any changes by updating the "Last updated" date of these Legal Terms, and you waive any right to receive specific notice of each such change. It is your responsibility to periodically review these Legal Terms to stay informed of updates. You will be subject to, and will be deemed to have been made aware of and to have accepted, the changes in any revised Legal Terms by your continued use of the Services after the date such revised Legal Terms are posted.
@@ -106,7 +106,7 @@ export default function TermsAndConditions() {
           Except as set out in this section or elsewhere in our Legal Terms, no part of the Services and no Content or Marks may be copied, reproduced, aggregated, republished, uploaded, posted, publicly displayed, encoded, translated, transmitted, distributed, sold, licensed, or otherwise exploited for any commercial purpose whatsoever, without our express prior written permission.
         </p>
         <p>
-          If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please address your request to: <a href="mailto:info@printsphere.co">info@printsphere.co</a>. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.
+          If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please address your request to: <a href="mailto:info@thezenvix.co">info@thezenvix.co</a>. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.
         </p>
         <p>
           We reserve all rights not expressly granted to you in and to the Services, Content, and Marks.
@@ -178,7 +178,7 @@ export default function TermsAndConditions() {
       <section>
         <h2>7. Return Policy</h2>
         <p>
-          Please review our Return Policy prior to making any purchases: <a href="http://printsphere.co/return-policy">http://printsphere.co/return-policy</a>.
+          Please review our Return Policy prior to making any purchases: <a href="http://thezenvix.co/return-policy">http://thezenvix.co/return-policy</a>.
         </p>
       </section>
 
@@ -266,7 +266,7 @@ export default function TermsAndConditions() {
       <section>
         <h2>12. Privacy Policy</h2>
         <p>
-          We care about data privacy and security. Please review our Privacy Policy: <a href="http://printsphere.co/privacy-policy">http://printsphere.co/privacy-policy</a>. By using the Services, you agree to be bound by our Privacy Policy, which is incorporated into these Legal Terms. Please be advised the Services are hosted in the United States. If you access the Services from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in the United States, then through your continued use of the Services, you are transferring your data to the United States, and you expressly consent to have your data transferred to and processed in the United States.
+          We care about data privacy and security. Please review our Privacy Policy: <a href="http://thezenvix.co/privacy-policy">http://thezenvix.co/privacy-policy</a>. By using the Services, you agree to be bound by our Privacy Policy, which is incorporated into these Legal Terms. Please be advised the Services are hosted in the United States. If you access the Services from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in the United States, then through your continued use of the Services, you are transferring your data to the United States, and you expressly consent to have your data transferred to and processed in the United States.
         </p>
       </section>
 
@@ -368,9 +368,9 @@ export default function TermsAndConditions() {
         </p>
         <div className="bg-gray-50 p-8 rounded-sm border border-border my-8 not-prose">
           <address className="not- text-gray-700 font-bold leading-relaxed space-y-2  ">
-            <p className="text-black font-extrabold">Print Sphere LLC</p>
+            <p className="text-black font-extrabold">The Zenvix LLC</p>
             <p className="pt-4 text-primary font-extrabold lowercase">
-              Email: <a href="mailto:info@printsphere.co" className="hover:underline">info@printsphere.co</a>
+              Email: <a href="mailto:info@thezenvix.co" className="hover:underline">info@thezenvix.co</a>
             </p>
           </address>
         </div>

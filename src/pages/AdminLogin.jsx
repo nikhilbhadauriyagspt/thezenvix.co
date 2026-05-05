@@ -41,7 +41,7 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-slate-900 font-urbanist px-4">
       <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-2xl">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 ">Print Sphere<span className="text-[#0096d6]">.</span></h2>
+          <h2 className="text-3xl font-bold text-slate-900 ">The Zenvix<span className="text-[#0096d6]">.</span></h2>
           <p className="text-sm font-bold text-slate-400  tracking-widest mt-2">Admin Portal</p>
         </div>
 

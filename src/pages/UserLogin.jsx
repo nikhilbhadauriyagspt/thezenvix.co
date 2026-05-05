@@ -41,7 +41,7 @@ export default function UserLogin() {
 
     return (
         <div className="min-h-screen flex bg-white font-sans overflow-hidden">
-            <SEO title="Sign In | Registry Access | Print Sphere" />
+            <SEO title="Sign In | Registry Access | The Zenvix" />
 
             {/* Left: Branding Image (50%) */}
             <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-slate-900">
@@ -54,7 +54,7 @@ export default function UserLogin() {
 
                 <div className="relative z-10 flex flex-col justify-between p-16 w-full">
                     <Link to="/">
-                        <img src="/logo/logo.avif" alt="Print Sphere" className="h-10 brightness-0 invert" />
+                        <img src="/logo/logo.avif" alt="The Zenvix" className="h-10 brightness-0 invert" />
                     </Link>
 
                     <div className="space-y-6">
@@ -85,7 +85,7 @@ export default function UserLogin() {
                 <div className="w-full max-w-[480px] bg-white p-10 md:p-12 border border-slate-100 shadow-xl rounded-2xl space-y-10">
                     <div className="lg:hidden text-center mb-8">
                         <Link to="/">
-                            <img src="/logo/logo.avif" alt="Print Sphere" className="h-10 mx-auto" />
+                            <img src="/logo/logo.avif" alt="The Zenvix" className="h-10 mx-auto" />
                         </Link>
                     </div>
 

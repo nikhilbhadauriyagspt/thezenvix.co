@@ -8,6 +8,8 @@ import ProductGrid from "@/components/ProductGrid";
 import HowToBuy from "@/components/HowToBuy";
 import { useGlobalData } from "../context/DataContext";
 import PremiumProductGrid from "@/components/PremiumProductGrid";
+import CategoryHighlights from "@/components/CategoryHighlights";
+import BundleSaveSection from "@/components/BundleSaveSection";
 
 import Mainsecimg from "/midbanner/images-7.avif";
 
@@ -34,29 +36,26 @@ export default function Home() {
   }, [categories, featuredProducts]);
 
   return (
-    <div className="bg-[#f5f5f5] font-sans overflow-x-hidden text-slate-900">
+    <div className="bg-[#f5f5f5] font-sans text-slate-900">
       <SEO
-        title="Print Sphere | High-Performance Printing Solutions"
-        description="Discover a wide range of high-performance printers, premium ink, and toner cartridges at Print Sphere. We provide professional business printing solutions with fast nationwide shipping."
+        title="The Zenvix | High-Performance Printing Solutions"
+        description="Discover a wide range of high-performance printers, premium ink, and toner cartridges at The Zenvix. We provide professional business printing solutions with fast nationwide shipping."
         keywords="Buy Printers Online, Ink and Toner, LaserJet, OfficeJet, Printer Accessories, Business Printing Solutions"
       />
       <Hero products={processedData.all} />
-      <CategoryCarousel categories={processedData.categoriesToDisplay} loading={loading} />
 
-      <div className="w-full px-4 md:px-6 flex justify-center py-8 items-center">
-        <img
-          src={Mainsecimg}
-          alt="Main Section"
-          className="w-full max-w-[1700px] h-full md:h-[200px] lg:h-[220px] object-cover rounded-2xl md:rounded-full "
-        />
-      </div>
-      {/* <AboutSection /> */}
-
+      <CategoryHighlights />
       <PremiumProductGrid
         products={processedData.printers}
         title="Best Selling Printers"
         loading={loading}
       />
+      <CategoryCarousel categories={processedData.categoriesToDisplay} loading={loading} />
+
+
+
+      <BundleSaveSection products={processedData.printers} loading={loading} />
+
       <MidBannersRow />
 
       <ProductGrid
@@ -64,7 +63,7 @@ export default function Home() {
         loading={loading}
       />
 
-      <HowToBuy />
+
     </div>
   );
 }

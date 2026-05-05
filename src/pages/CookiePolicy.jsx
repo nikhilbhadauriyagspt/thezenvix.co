@@ -10,7 +10,7 @@ export default function CookiePolicy() {
       lastUpdated="Apr 22, 2026"
     >
       <p className="lead">
-        This Cookie Policy explains how Print Sphere LLC ("Company," "we," "us," or "our") uses cookies and similar technologies when you visit our website: <a href="https://printsphere.co/">https://printsphere.co/</a>
+        This Cookie Policy explains how The Zenvix LLC ("Company," "we," "us," or "our") uses cookies and similar technologies when you visit our website: <a href="https://thezenvix.co/">https://thezenvix.co/</a>
       </p>
       <p>
         This Cookie Policy should be read together with our <Link to="/privacy-policy">Privacy Policy</Link> and <Link to="/terms-and-conditions">Terms and Conditions</Link>.
@@ -127,8 +127,8 @@ export default function CookiePolicy() {
       <h2>8. Sale Or Sharing Of Personal Information</h2>
       <p>We do not sell personal information. If cookies are considered “sharing” under certain US state privacy laws (such as targeted advertising), you may exercise your rights by:</p>
       <ul>
-        <li>Emailing: <a href="mailto:info@printsphere.co">info@printsphere.co</a></li>
-        <li>Visiting: <Link to="/contact">https://printsphere.co/contact</Link></li>
+        <li>Emailing: <a href="mailto:info@thezenvix.co">info@thezenvix.co</a></li>
+        <li>Visiting: <Link to="/contact">https://thezenvix.co/contact</Link></li>
       </ul>
 
       <h2>9. Children’s Privacy</h2>
@@ -142,9 +142,9 @@ export default function CookiePolicy() {
       <p>If you have any questions regarding this Cookie Policy, please contact:</p>
       <div className="bg-gray-50 p-8 rounded-sm border border-[#e9e9e9] my-8 not-prose">
         <address className="not- text-gray-700 font-bold leading-relaxed space-y-2">
-          <p className="text-black font-extrabold">Print Sphere LLC</p>
+          <p className="text-black font-extrabold">The Zenvix LLC</p>
           <p className="pt-4 flex items-center gap-3 text-[#1447E6] font-extrabold">
-            <a href="mailto:info@printsphere.co" className="hover:underline">info@printsphere.co</a>
+            <a href="mailto:info@thezenvix.co" className="hover:underline">info@thezenvix.co</a>
           </p>
         </address>
       </div>

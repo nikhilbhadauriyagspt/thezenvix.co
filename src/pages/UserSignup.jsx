@@ -56,14 +56,14 @@ export default function UserSignup() {
 
     return (
         <div className="min-h-screen flex bg-white font-sans overflow-hidden">
-            <SEO title="Create Your Account | Registry Enrollment | Print Sphere" />
+            <SEO title="Create Your Account | Registry Enrollment | The Zenvix" />
 
             {/* Left: Enrollment Form (50%) */}
             <div className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16 bg-[#f5f5f5]">
                 <div className="w-full max-w-[520px] bg-white p-10 md:p-12 border border-slate-100 shadow-xl rounded-2xl space-y-10">
                     <div className="lg:hidden text-center mb-8">
                         <Link to="/">
-                            <img src="/logo/logo.avif" alt="Print Sphere" className="h-10 mx-auto" />
+                            <img src="/logo/logo.avif" alt="The Zenvix" className="h-10 mx-auto" />
                         </Link>
                     </div>
 
@@ -184,7 +184,7 @@ export default function UserSignup() {
 
                 <div className="relative z-10 flex flex-col justify-between p-16 w-full text-right items-end">
                     <Link to="/">
-                        <img src="/logo/logo.avif" alt="Print Sphere" className="h-10 brightness-0 invert" />
+                        <img src="/logo/logo.avif" alt="The Zenvix" className="h-10 brightness-0 invert" />
                     </Link>
 
                     <div className="space-y-6">

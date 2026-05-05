@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /users
 Disallow: /settings
 
-Sitemap: https://printsphere.co/sitemap.xml
+Sitemap: https://thezenvix.co/sitemap.xml

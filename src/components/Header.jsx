@@ -1,75 +1,85 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+// Header.jsx
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useGlobalData } from "../context/DataContext";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  User,
+  ShoppingBag,
+  Heart,
+  X,
+  Menu,
+  MapPin,
+  CalendarDays,
+  HelpCircle,
+  ShieldCheck,
+  Store,
+  Grid2X2,
+  ChevronDown,
+  Flame,
+  Loader2,
+  LogOut,
+  ChevronRight,
+} from "lucide-react";
 import API_BASE_URL from "../config";
-import Search from 'lucide-react/dist/esm/icons/search';
-import User from 'lucide-react/dist/esm/icons/user';
-import ShoppingCart from 'lucide-react/dist/esm/icons/shopping-cart';
-import Menu from 'lucide-react/dist/esm/icons/menu';
-import X from 'lucide-react/dist/esm/icons/x';
-import LogOut from 'lucide-react/dist/esm/icons/log-out';
-import Package from 'lucide-react/dist/esm/icons/package';
-import Heart from 'lucide-react/dist/esm/icons/heart';
-import GitCompare from 'lucide-react/dist/esm/icons/git-compare';
-import LayoutGrid from 'lucide-react/dist/esm/icons/layout-grid';
-import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
-import Phone from 'lucide-react/dist/esm/icons/phone';
-import MessageCircle from 'lucide-react/dist/esm/icons/message-circle';
-import Mail from 'lucide-react/dist/esm/icons/mail';
-import MapPin from 'lucide-react/dist/esm/icons/map-pin';
-import Printer from 'lucide-react/dist/esm/icons/printer';
-import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
-import { m, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
-  const { cartCount, cartTotal, openCartDrawer } = useCart();
-  const { categories: globalCategories } = useGlobalData();
-
-  const [categories, setCategories] = useState([]);
-  const [user, setUser] = useState(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAccountOpen, setIsAccountOpen] = useState(false);
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
+  const { cartCount, cartTotal, openCartDrawer, wishlist, wishlistCount, toggleWishlist } = useCart();
+  const { categories: globalCategories, featuredProducts } = useGlobalData();
+  const [displayCategories, setDisplayCategories] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const searchRef = useRef(null);
-  const accountRef = useRef(null);
-  const categoryRef = useRef(null);
+  const [drawerType, setDrawerType] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [userCity, setUserCity] = useState("Loading...");
+
+  // Search States
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    if (searchQuery.trim().length > 1 && featuredProducts) {
+      const filtered = featuredProducts
+        .filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        .slice(0, 6);
+      setSearchResults(filtered);
+      setShowResults(true);
+    } else {
+      setSearchResults([]);
+      setShowResults(false);
+    }
+  }, [searchQuery, featuredProducts]);
 
   useEffect(() => {
     if (globalCategories.length > 0) {
-      const printerParent = globalCategories.find(
-        (cat) => cat.slug === "printers" || cat.id === 46
-      );
-      setCategories(
-        printerParent?.children ||
-        globalCategories.filter(
-          (c) => !c.name.toLowerCase().includes("laptop")
-        )
-      );
+      const printers = globalCategories.find((c) => c.slug === 'printers' || c.id === 46);
+      setDisplayCategories(printers ? printers.children : globalCategories.filter(c => !c.name.toLowerCase().includes('laptop')));
     }
   }, [globalCategories]);
 
+  // Auth States
+  const [user, setUser] = useState(null);
+  const [authMode, setAuthMode] = useState("login");
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [authData, setAuthData] = useState({
+    email: "",
+    password: "",
+    name: "",
+    confirmPassword: ""
+  });
+
   useEffect(() => {
     const checkUser = () => {
-      const savedUser = localStorage.getItem("user");
-      setUser(savedUser ? JSON.parse(savedUser) : null);
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      } else {
+        setUser(null);
+      }
     };
 
     checkUser();
@@ -78,560 +88,690 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchValue.trim().length > 1) {
-        setIsLoading(true);
-
-        fetch(`${API_BASE_URL}/products?search=${encodeURIComponent(searchValue)}`)
-          .then((res) => res.json())
-          .then((data) => {
-            setSearchResults(data.status === "success" ? data.data : []);
-            setIsLoading(false);
-          })
-          .catch(() => setIsLoading(false));
-      } else {
-        setSearchResults([]);
-      }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchValue]);
-
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setIsSearchActive(false);
+    const fetchLocation = async () => {
+      let ipCity = "";
+      try {
+        const res = await fetch("https://ipwho.is/");
+        const data = await res.json();
+        if (data && data.success && data.city) {
+          ipCity = data.city;
+          setUserCity(ipCity);
+        }
+      } catch (err) {
+        console.error("IP Location error:", err);
       }
 
-      if (accountRef.current && !accountRef.current.contains(e.target)) {
-        setIsAccountOpen(false);
-      }
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            try {
+              const { latitude, longitude } = position.coords;
+              const res = await fetch(
+                `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+              );
+              const data = await res.json();
 
-      if (categoryRef.current && !categoryRef.current.contains(e.target)) {
-        setIsCategoryOpen(false);
+              const adminLevels = data.localityInfo?.administrative || [];
+
+              // Priority search for major cities in administrative hierarchy
+              const majorCity = adminLevels.find(level =>
+                level.name.toLowerCase().includes('noida') ||
+                level.name.toLowerCase().includes('delhi') ||
+                level.name.toLowerCase().includes('gurgaon') ||
+                level.name.toLowerCase().includes('ghaziabad') ||
+                level.name.toLowerCase().includes('gautam buddha nagar')
+              );
+
+              let finalCity = majorCity?.name;
+
+              // If it's Gautam Buddha Nagar, users usually prefer "Noida"
+              if (finalCity && finalCity.toLowerCase().includes('gautam buddha nagar')) {
+                finalCity = "Noida";
+              }
+
+              if (!finalCity) {
+                if (ipCity.toLowerCase().includes('noida') &&
+                  (data.city?.toLowerCase().includes('dadri') || data.locality?.toLowerCase().includes('dadri'))) {
+                  finalCity = ipCity;
+                } else {
+                  finalCity = data.city || data.locality || ipCity || "Your location";
+                }
+              }
+
+              // Final check for 'Dadri' specifically if user is in NCR
+              if (finalCity.toLowerCase().includes('dadri')) {
+                const isNCR = adminLevels.some(l =>
+                  l.name.toLowerCase().includes('uttar pradesh') ||
+                  l.name.toLowerCase().includes('delhi')
+                );
+                if (isNCR) finalCity = "Noida";
+              }
+
+              setUserCity(finalCity);
+            } catch (err) {
+              console.error("Reverse geocode error:", err);
+              if (!ipCity) setUserCity("Your location");
+            }
+          },
+          (error) => {
+            console.warn("Geolocation denied or error:", error);
+            if (!ipCity) setUserCity("Your location");
+          },
+          { enableHighAccuracy: true, timeout: 6000, maximumAge: 10000 }
+        );
+      } else if (!ipCity) {
+        setUserCity("Your location");
       }
     };
 
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
+    fetchLocation();
   }, []);
 
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Shop", path: "/shop" },
-    { name: "Inkjet Printers", path: "/shop?category=inkjet-printers" },
-    { name: "Laser Printers", path: "/shop?category=laser-printers" },
-    { name: "All In One", path: "/shop?category=all-in-one-printers" },
-    { name: "Accessories", path: "/shop?category=printer-accessories" },
-    { name: "About Us", path: "/about" },
-    { name: "Contact", path: "/contact" },
-  ];
+  const handleAuthSubmit = async (e) => {
+    e.preventDefault();
+    setAuthError("");
+    setAuthLoading(true);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    window.location.reload();
-  };
+    const endpoint = authMode === "login" ? "/login" : "/register";
+    const payload = authMode === "login"
+      ? { type: 'user', identifier: authData.email, password: authData.password }
+      : { type: 'user', name: authData.name, email: authData.email, password: authData.password };
 
-  const getFirstImage = (images) => {
     try {
-      const parsed = JSON.parse(images || "[]");
-      if (parsed?.[0]) {
-        return `/${parsed[0].replace(/\\/g, "/")}`;
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      if (data.status === 'success') {
+        localStorage.setItem('user', JSON.stringify(data.data));
+        window.dispatchEvent(new Event('storage'));
+        setUser(data.data);
+        closeDrawer();
+        setAuthData({ email: "", password: "", name: "", confirmPassword: "" });
+      } else {
+        setAuthError(data.message || 'Authentication failed');
       }
-      return "/logo/fabicon.png";
-    } catch {
-      return "/logo/fabicon.png";
+    } catch (err) {
+      setAuthError('Could not connect to server.');
+    } finally {
+      setAuthLoading(false);
     }
   };
 
-  const isActiveLink = (path) => {
-    if (path === "/") return location.pathname === "/";
-    if (path.includes("?")) return location.pathname + location.search === path;
-    return location.pathname === path;
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    window.dispatchEvent(new Event('storage'));
+    setUser(null);
+    closeDrawer();
+    navigate("/");
+  };
+
+  const navLinks = [
+    { name: "About Us", path: "/about", icon: Store },
+    { name: "Contact Us", path: "/contact", icon: HelpCircle },
+    { name: "FAQs", path: "/faqs", icon: ShieldCheck },
+
+  ];
+
+  const openDrawer = (type) => setDrawerType(type);
+  const closeDrawer = () => setDrawerType(null);
+
+  const getImagePath = (images) => {
+    try {
+      const imgs = typeof images === 'string' ? JSON.parse(images) : images;
+      if (Array.isArray(imgs) && imgs.length > 0) {
+        const path = imgs[0].replace(/\\/g, '/');
+        const thumbPath = path.replace(/\.(png|jpg|jpeg|webp|avif)$/, '_thumb.avif');
+        return thumbPath.startsWith('/') ? thumbPath : `/${thumbPath}`;
+      }
+    } catch (e) { }
+    return "/logo/fabicon.avif";
   };
 
   return (
     <>
-      <header className={`w-full sticky top-0 z-[50] bg-white border-b border-slate-100 transition-all duration-300 ${isScrolled ? 'shadow-md py-0' : 'py-1 md:py-2'}`}>
+      <header className="w-full bg-white sticky top-0 z-[999]  border-[#e5e5e5] ">
+        {/* Top Green Bar */}
+        <div className="w-full bg-[#d4aa72] text-white">
+          <div className="max-w-[1800px] mx-auto h-[42px] px-4 flex items-center justify-between text-[15px] font-semibold">
+            <div className="flex items-center gap-2">
+              <MapPin size={16} />
+              <span>Deliver to {userCity}</span>
+            </div>
+
+            <nav className="hidden lg:flex items-center">
+              {navLinks.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="flex items-center gap-2 px-4 border-l border-white/25 hover:text-white/80 transition"
+                  >
+                    <Icon size={16} />
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+
         {/* Main Header */}
-        <div className={`max-w-[1600px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4 transition-all duration-300 ${isScrolled ? 'h-[64px] md:h-[76px]' : 'h-[80px] md:h-[96px]'}`}>
+        <div className="max-w-[1800px] mx-auto h-[82px] px-4 flex items-center gap-5">
           {/* Logo */}
-          <Link to="/" className="shrink-0 flex items-center">
+          <Link to="/" className="shrink-0">
             <img
               src="/logo/logo.avif"
-              alt="Print Sphere"
-              className={`w-auto object-contain transition-all duration-300 ${isScrolled ? 'h-7 md:h-9' : 'h-8 md:h-11'}`}
+              alt="Logo"
+              className="h-[60px] w-auto object-contain"
             />
           </Link>
 
-          {/* Search */}
-          <div
-            className="hidden md:block flex-1 max-w-[800px] relative"
-            ref={searchRef}
+          {/* Browse */}
+          <button
+            onClick={() => openDrawer("category")}
+            className="hidden lg:flex items-center justify-between w-[180px] h-[46px] px-5 border-2 border-[#d4aa72] text-[#d4aa72] font-bold"
           >
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search printers, toner, ink, accessories..."
-                className="w-full h-[48px] rounded-full bg-[#f3f6f7] border border-slate-200 pl-6 pr-14 text-[15px] text-slate-700 outline-none transition focus:border-[#05718A] focus:bg-white"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                onFocus={() => setIsSearchActive(true)}
-              />
-              <button
-                type="submit"
-                aria-label="Search"
-                className="absolute right-1 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-slate-500 hover:text-[#05718A] transition"
-              >
-                <Search size={19} />
-              </button>
-            </div>
+            <span className="flex items-center gap-3">
+              <Grid2X2 size={18} />
+              Browse Now
+            </span>
 
+          </button>
+
+          {/* Search */}
+          <div className="hidden md:flex flex-1 h-[48px] bg-[#f1f1f1] rounded-[4px] items-center px-5 relative">
+            <Flame size={18} className="text-orange-500 mr-3" />
+            <input
+              type="text"
+              placeholder="Search for printers, ink, accessories..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => searchQuery.trim().length > 1 && setShowResults(true)}
+              className="flex-1 bg-transparent outline-none text-[16px]"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && searchQuery.trim()) {
+                  navigate(`/shop?search=${encodeURIComponent(searchQuery)}`);
+                  setShowResults(false);
+                }
+              }}
+            />
+            <Search size={24} className="text-gray-400" />
+
+            {/* Live Search Results */}
             <AnimatePresence>
-              {isSearchActive && searchValue.length > 1 && (
-                <m.div
-                  initial={{ opacity: 0, y: 8 }}
+              {showResults && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 8 }}
-                  className="absolute left-0 right-0 top-full mt-3 bg-white rounded-lg border border-slate-200 shadow-2xl p-2 z-[5200]"
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-[54px] left-0 right-0 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-xl border border-gray-100 overflow-hidden z-[1000]"
                 >
-                  {isLoading ? (
-                    <div className="py-6 text-center text-sm text-slate-500">
-                      Searching...
-                    </div>
-                  ) : searchResults.length > 0 ? (
-                    <div className="max-h-[380px] overflow-y-auto custom-scrollbar">
-                      {searchResults.slice(0, 6).map((product) => (
-                        <button
-                          key={product.id}
-                          aria-label={`View ${product.name}`}
-                          onClick={() => {
-                            navigate(`/product/${product.slug}`);
-                            setIsSearchActive(false);
-                            setSearchValue("");
-                          }}
-                          className="w-full flex items-center gap-3 p-3 rounded-md hover:bg-slate-50 text-left transition"
+                  <div className="p-2 max-h-[420px] overflow-y-auto custom-scrollbar">
+                    {searchResults.length > 0 ? (
+                      <>
+                        <div className="px-4 py-2 text-[11px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-50 mb-2">
+                          Product Suggestions
+                        </div>
+                        {searchResults.map((product) => (
+                          <Link
+                            key={product.id}
+                            to={`/product/${product.slug}`}
+                            onClick={() => {
+                              setShowResults(false);
+                              setSearchQuery("");
+                            }}
+                            className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-all group"
+                          >
+                            <div className="w-14 h-14 bg-gray-50 rounded-lg overflow-hidden shrink-0 p-1 flex items-center justify-center">
+                              <img
+                                src={getImagePath(product.images)}
+                                alt={product.name}
+                                className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                              />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-bold text-[14px] text-gray-800 truncate group-hover:text-[#d4aa72] transition-colors">
+                                {product.name}
+                              </h4>
+                              <p className="text-[12px] text-[#d4aa72] font-bold">
+                                ${Number(product.price).toFixed(2)}
+                              </p>
+                            </div>
+                            <ChevronRight size={16} className="text-gray-300 opacity-0 group-hover:opacity-100 transition-all" />
+                          </Link>
+                        ))}
+                        <Link
+                          to={`/shop?search=${encodeURIComponent(searchQuery)}`}
+                          onClick={() => setShowResults(false)}
+                          className="flex justify-center items-center h-[46px] mt-2 bg-[#f9f9f9] text-[13px] font-bold text-gray-600 hover:bg-black hover:text-white transition-all rounded-lg"
                         >
-                          <div className="w-14 h-14 rounded-md bg-slate-50 border border-slate-200 p-2 shrink-0">
-                            <img
-                              src={getFirstImage(product.images)}
-                              alt={product.name}
-                              className="w-full h-full object-contain"
-                            />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="text-[14px] font-semibold text-slate-800 truncate">
-                              {product.name}
-                            </p>
-                            <p className="text-[14px] font-bold text-[#05718A]">
-                              ${product.price}
-                            </p>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="py-6 text-center text-sm text-slate-500">
-                      No results found
-                    </div>
-                  )}
-                </m.div>
+                          View all results for "{searchQuery}"
+                        </Link>
+                      </>
+                    ) : (
+                      <div className="p-8 text-center">
+                        <p className="text-gray-400 text-sm">No products found for "{searchQuery}"</p>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* Right side */}
-          <div className="hidden lg:flex items-center gap-5 shrink-0">
-            {/* Email block */}
-            <a
-              href="mailto:info@printsphere.co"
-              className="flex items-start gap-3 text-left group"
+          {/* Right */}
+          <div className="hidden lg:flex items-center h-full">
+            <button
+              onClick={() => openDrawer("signin")}
+              className="flex items-center gap-3 px-5 border-r border-[#e5e5e5] font-bold"
             >
-              <div className="pt-1 text-[#05718A]">
-                <Mail size={22} />
-              </div>
-
-              <div className="leading-tight">
-                <div className="flex items-center gap-2">
-                  <span className="text-[16px] font-bold text-[#05718A]">
-                    info@printsphere.co
-                  </span>
+              <User size={27} />
+              {user ? (
+                <div className="flex flex-col items-start leading-none">
+                  <span className="text-[12px] text-gray-500 font-normal mb-1">Welcome</span>
+                  <span className="text-[15px]">{user.name.split(' ')[0]}</span>
                 </div>
-                <p className="text-[12px] text-slate-500 mt-1">
-                  Quality Printing Solutions
-                </p>
-              </div>
-            </a>
+              ) : "Sign In"}
+            </button>
 
-            <div className="w-px h-10 bg-slate-200" />
-
-            {/* Account */}
-            <div className="relative" ref={accountRef}>
-              <button
-                onClick={() => setIsAccountOpen((prev) => !prev)}
-                className="flex items-center gap-2 hover:text-[#05718A] transition text-slate-700"
-              >
-                <User size={20} />
-                <span className="text-[14px] font-medium">Sign In</span>
-              </button>
-
-              <AnimatePresence>
-                {isAccountOpen && (
-                  <m.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    className="absolute right-0 top-full mt-3 w-60 bg-white border border-slate-200 rounded-lg shadow-xl py-2 z-[5300]"
-                  >
-                    {!user ? (
-                      <div className="p-3 space-y-2">
-                        <Link
-                          to="/login"
-                          onClick={() => setIsAccountOpen(false)}
-                          className="block w-full text-center py-2.5 rounded-md bg-[#05718A] text-white text-sm font-semibold"
-                        >
-                          Sign In
-                        </Link>
-                        <Link
-                          to="/signup"
-                          onClick={() => setIsAccountOpen(false)}
-                          className="block w-full text-center py-2.5 rounded-md border border-slate-300 text-slate-700 text-sm font-semibold"
-                        >
-                          Register
-                        </Link>
-                      </div>
-                    ) : (
-                      <>
-                        <div className="px-4 py-3 border-b border-slate-100">
-                          <p className="text-xs text-slate-400 uppercase font-semibold">
-                            Profile
-                          </p>
-                          <p className="text-sm font-bold text-slate-800 truncate">
-                            {user.name}
-                          </p>
-                        </div>
-
-                        <Link
-                          to="/profile"
-                          onClick={() => setIsAccountOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50"
-                        >
-                          <User size={16} />
-                          My Account
-                        </Link>
-
-                        <Link
-                          to="/orders"
-                          onClick={() => setIsAccountOpen(false)}
-                          className="flex items-center gap-3 px-4 py-3 text-sm text-slate-700 hover:bg-slate-50"
-                        >
-                          <Package size={16} />
-                          My Orders
-                        </Link>
-
-                        <button
-                          onClick={handleLogout}
-                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-50 border-t border-slate-100"
-                        >
-                          <LogOut size={16} />
-                          Logout
-                        </button>
-                      </>
-                    )}
-                  </m.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Wishlist */}
-            <Link
-              to="/wishlist"
-              className="flex items-center gap-2 hover:text-[#05718A] transition text-slate-700"
+            <button
+              onClick={() => openDrawer("wishlist")}
+              className="relative flex items-center gap-3 px-5 border-r border-[#e5e5e5] font-bold"
             >
-              <Heart size={20} />
-              <span className="text-[14px] font-medium">Wishlist</span>
-            </Link>
+              <Heart size={27} />
+              <span className="absolute top-[23px] left-[43px] bg-[#d4aa72] text-white text-[11px] w-[17px] h-[17px] rounded-full flex items-center justify-center">
+                {wishlistCount}
+              </span>
+              Wishlist
+            </button>
 
-            {/* Compare */}
-            <Link
-              to="/compare"
-              className="flex items-center gap-2 hover:text-[#05718A] transition text-slate-700"
-            >
-              <GitCompare size={20} />
-              <span className="text-[14px] font-medium">Compare</span>
-            </Link>
-
-            {/* Cart */}
             <button
               onClick={openCartDrawer}
-              className="relative flex items-center gap-2 hover:text-[#05718A] transition text-slate-700"
+              className="relative flex items-center gap-3 px-5 font-bold"
             >
-              <ShoppingCart size={20} />
-              <span className="text-[14px] font-medium">Cart</span>
-
+              <ShoppingBag size={29} />
               {cartCount > 0 && (
-                <span className="absolute -top-2 left-3 min-w-[18px] h-[18px] px-1 rounded-full bg-[#05718A] text-white text-[10px] font-bold flex items-center justify-center">
+                <span className="absolute top-[23px] left-[43px] bg-[#d4aa72] text-white text-[11px] w-[17px] h-[17px] rounded-full flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
+              Cart ${Number(cartTotal || 0).toFixed(2)}
             </button>
           </div>
 
-          {/* Mobile actions */}
-          <div className="flex lg:hidden items-center gap-2">
-            <button
-              onClick={openCartDrawer}
-              aria-label="Open cart"
-              className="relative p-2 text-slate-700"
-            >
-              <ShoppingCart size={23} />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#05718A] text-white text-[10px] font-bold flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </button>
-
-            <button
-              onClick={() => setIsMobileMenuOpen(true)}
-              aria-label="Open menu"
-              className="p-2 text-slate-700"
-            >
-              <Menu size={27} />
-            </button>
-          </div>
-        </div>
-
-        {/* Nav row */}
-        <div className="border-t border-slate-100">
-          <div className="max-w-[1600px] mx-auto px-4 lg:px-8 h-[56px] flex items-center justify-between">
-            <div className="flex items-center gap-8 w-full">
-              <div className="relative" ref={categoryRef}>
-                <div
-                  onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                  className="hidden md:flex items-center gap-2 text-slate-800 font-medium cursor-pointer group"
-                >
-                  <LayoutGrid size={17} className="text-[#05718A]" />
-                  <span className="text-[14px]">All Categories</span>
-                  <ChevronDown
-                    size={15}
-                    className={`transition duration-200 ${isCategoryOpen ? "rotate-180 text-[#05718A]" : "group-hover:text-[#05718A]"
-                      }`}
-                  />
-                </div>
-
-                <AnimatePresence>
-                  {isCategoryOpen && (
-                    <m.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      className="absolute left-0 top-full mt-4 w-64 bg-white border border-slate-200 rounded-md shadow-xl py-3 z-[5300] overflow-hidden"
-                    >
-                      <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
-                        {categories.map((cat) => (
-                          <Link
-                            key={cat.id}
-                            to={`/shop?category=${cat.slug}`}
-                            onClick={() => setIsCategoryOpen(false)}
-                            className="flex items-center justify-between px-5 py-3 hover:bg-slate-50 group/item transition-colors"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-sm bg-slate-50 flex items-center justify-center group-hover/item:bg-white border border-transparent group-hover/item:border-slate-100 transition-all">
-                                <Printer size={16} className="text-[#05718A]" />
-                              </div>
-                              <span className="text-sm font-semibold text-slate-700 group-hover/item:text-[#05718A]">
-                                {cat.name}
-                              </span>
-                            </div>
-                            <ChevronRight size={14} className="text-slate-300 group-hover/item:text-[#05718A] group-hover/item:translate-x-0.5 transition-all" />
-                          </Link>
-                        ))}
-                      </div>
-                    </m.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <nav className="flex items-center gap-7 overflow-x-auto no-scrollbar scroll-smooth">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.path}
-                    className={`text-[15px] font-medium whitespace-nowrap transition ${isActiveLink(link.path)
-                      ? "text-[#05718A]"
-                      : "text-slate-700 hover:text-[#05718A]"
-                      }`}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-
-            <div className="hidden xl:flex items-center gap-3 text-sm text-slate-500">
-              <span>Free Shipping on Selected Orders</span>
-            </div>
-          </div>
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="lg:hidden ml-auto"
+          >
+            <Menu size={30} />
+          </button>
         </div>
       </header>
 
-      {/* Mobile Drawer */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <>
-            <m.div
-              onClick={() => setIsMobileMenuOpen(false)}
+      {/* Side Drawers */}
+      <AnimatePresence mode="wait">
+        {drawerType && (
+          <div className="fixed inset-0 z-[9999]">
+            {/* Overlay */}
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 z-[2000]"
+              onClick={closeDrawer}
+              className="absolute inset-0 bg-black/35"
             />
 
-            <m.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 24 }}
-              className="fixed top-0 left-0 bottom-0 w-[300px] bg-white z-[2100] flex flex-col"
-            >
-              <div className="p-5 border-b border-slate-100 flex items-center justify-between">
-                <img src="/logo/logo.png" alt="Logo" className="h-8" />
+            {/* Left Drawer (Category) */}
+            {drawerType === "category" && (
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="absolute left-0 top-0 h-full w-[360px] md:w-[420px] bg-white shadow-2xl flex flex-col"
+              >
                 <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  aria-label="Close menu"
+                  onClick={closeDrawer}
+                  className="absolute -right-[52px] top-[20px] w-[38px] h-[38px] rounded-full bg-white flex items-center justify-center shadow-lg"
                 >
-                  <X size={24} className="text-slate-500" />
+                  <X size={22} />
                 </button>
-              </div>
 
-              <div className="p-4 border-b border-slate-100">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    className="w-full h-12 rounded-full bg-slate-100 border border-slate-200 pl-5 pr-12 text-sm outline-none focus:border-[#05718A]"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                  />
-                  <button
-                    aria-label="Search"
-                    className="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-slate-500"
-                  >
-                    <Search size={18} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex-1 overflow-y-auto p-5 space-y-6">
-                <nav className="space-y-1">
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.name}
-                      to={link.path}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`block px-4 py-3 rounded-xl text-[15px] font-medium ${isActiveLink(link.path)
-                        ? "bg-[#05718A] text-white"
-                        : "text-slate-700 hover:bg-slate-50"
-                        }`}
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
-
-                  <div className="pt-4 mt-4 border-t border-slate-100 space-y-1">
-                    <Link
-                      to="/wishlist"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`block px-4 py-3 rounded-xl text-[15px] font-medium ${isActiveLink("/wishlist")
-                        ? "bg-[#05718A] text-white"
-                        : "text-slate-700 hover:bg-slate-50"
-                        }`}
-                    >
-                      Wishlist
-                    </Link>
-                    <Link
-                      to="/compare"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`block px-4 py-3 rounded-xl text-[15px] font-medium ${isActiveLink("/compare")
-                        ? "bg-[#05718A] text-white"
-                        : "text-slate-700 hover:bg-slate-50"
-                        }`}
-                    >
-                      Compare
-                    </Link>
+                <div className="px-6 py-7 flex flex-col h-full">
+                  <div className="flex justify-center items-center gap-3 text-[20px] uppercase font-bold border-b pb-6">
+                    <Grid2X2 size={28} className="text-[#d4aa72]" />
+                    Browse Categories
                   </div>
-                </nav>
 
-                <div className="pt-4 border-t border-slate-100">
-                  <p className="text-xs font-semibold uppercase text-slate-400 mb-3">
-                    Categories
-                  </p>
-                  <div className="space-y-1">
-                    {categories.map((cat) => (
-                      <Link
-                        key={cat.id}
-                        to={`/shop?category=${cat.slug}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:text-[#05718A]"
-                      >
-                        <Printer size={14} className="text-slate-400" />
-                        {cat.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-5 bg-slate-50 border-t border-slate-100">
-                {!user ? (
-                  <div className="grid grid-cols-2 gap-3">
-                    <Link
-                      to="/login"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="py-3 text-center rounded-xl bg-[#05718A] text-white text-sm font-semibold"
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      to="/signup"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="py-3 text-center rounded-xl border border-slate-300 bg-white text-slate-700 text-sm font-semibold"
-                    >
-                      Join
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-10 h-10 rounded-full bg-[#05718A] text-white flex items-center justify-center font-bold">
-                        {user.name?.[0] || "U"}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-semibold text-slate-800 truncate">
-                          {user.name}
-                        </p>
-                      </div>
+                  <div className="mt-6 flex-1 overflow-y-auto custom-scrollbar pr-2">
+                    <div className="grid grid-cols-1 gap-3">
+                      {displayCategories.map((cat) => (
+                        <Link
+                          key={cat.id}
+                          to={`/shop?category=${cat.slug}`}
+                          onClick={closeDrawer}
+                          className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 group transition-all border border-transparent hover:border-gray-100"
+                        >
+                          <div className="w-16 h-16 bg-gray-50 rounded-lg overflow-hidden shrink-0 flex items-center justify-center p-2 group-hover:bg-white transition-colors border border-gray-50">
+                            <img
+                              src={`/category/${cat.slug}_thumb.avif`}
+                              alt={cat.name}
+                              className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
+                              onError={(e) => {
+                                e.currentTarget.src = "/logo/fabicon.avif";
+                              }}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-[15px] text-gray-800 group-hover:text-[#d4aa72] transition-colors">
+                              {cat.name}
+                            </h4>
+                            <p className="text-[12px] text-gray-400 font-medium">
+                              Explore Products
+                            </p>
+                          </div>
+                          <ChevronRight size={18} className="text-gray-300 group-hover:text-[#d4aa72] group-hover:translate-x-1 transition-all" />
+                        </Link>
+                      ))}
                     </div>
-                    <button onClick={handleLogout} className="text-red-500">
-                      <LogOut size={18} />
-                    </button>
+                  </div>
+
+                  <div className="border-t pt-6 mt-auto">
+                    <Link
+                      to="/shop"
+                      onClick={closeDrawer}
+                      className="flex justify-center items-center w-full h-[52px] bg-[#203f2c] text-white rounded-[4px] font-bold uppercase tracking-wider hover:bg-black transition-all gap-3"
+                    >
+                      View All Products
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Right Drawers (Wishlist, Signin) */}
+            {drawerType !== "category" && (
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "tween", duration: 0.3 }}
+                className="absolute right-0 top-0 h-full w-[360px] md:w-[405px] bg-white shadow-2xl flex flex-col"
+              >
+                <button
+                  onClick={closeDrawer}
+                  className="absolute -left-[52px] top-[20px] w-[38px] h-[38px] rounded-full bg-white flex items-center justify-center shadow-lg"
+                >
+                  <X size={22} />
+                </button>
+
+                {drawerType === "wishlist" && (
+                  <div className="px-6 py-7 flex flex-col h-full">
+                    <div className="flex justify-center items-center gap-3 text-[20px] uppercase font-bold">
+                      <Heart size={28} />
+                      Wishlist ({wishlistCount})
+                    </div>
+
+                    <div className="border-t mt-6 pt-6 flex-1 overflow-y-auto custom-scrollbar">
+                      {wishlistCount === 0 ? (
+                        <div className="text-center py-10">
+                          <div className="text-[16px] text-gray-500 mb-8">
+                            No products in the wishlist.
+                          </div>
+                          <Link
+                            to="/shop"
+                            onClick={closeDrawer}
+                            className="inline-flex bg-[#d4aa72] text-white px-8 py-3 rounded-[4px] font-bold uppercase tracking-wider hover:bg-black transition-all"
+                          >
+                            Return To Shop
+                          </Link>
+                        </div>
+                      ) : (
+                        <div className="space-y-6">
+                          {wishlist.map((item) => (
+                            <div key={item.id} className="flex gap-4 group">
+                              <div className="w-20 h-20 bg-gray-50 rounded-lg overflow-hidden shrink-0 border border-gray-100 p-2">
+                                <img
+                                  src={getImagePath(item.images)}
+                                  alt={item.name}
+                                  className="w-full h-full object-contain mix-blend-multiply"
+                                />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h4 className="font-bold text-[14px] truncate">{item.name}</h4>
+                                <p className="text-[#d4aa72] font-bold mt-1">${Number(item.price).toFixed(2)}</p>
+                                <button
+                                  onClick={() => toggleWishlist(item)}
+                                  className="text-[12px] text-gray-400 hover:text-red-500 mt-2 underline"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                          <div className="pt-6">
+                            <Link
+                              to="/wishlist"
+                              onClick={closeDrawer}
+                              className="flex justify-center items-center w-full h-[52px] bg-[#203f2c] text-white rounded-[4px] font-bold uppercase tracking-wider hover:bg-black transition-all"
+                            >
+                              View Full Wishlist
+                            </Link>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
-              </div>
-            </m.div>
-          </>
+
+                {drawerType === "signin" && (
+                  <div className="px-6 py-7 h-full flex flex-col">
+                    <div className="flex justify-center items-center gap-3 text-[20px] uppercase font-bold">
+                      <User size={28} />
+                      {user ? "My Account" : "Sign In"}
+                    </div>
+
+                    <div className="border-t mt-6 pt-6 flex-1 overflow-y-auto custom-scrollbar">
+                      {user ? (
+                        <div className="space-y-6">
+                          <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <div className="w-12 h-12 bg-[#d4aa72] text-white rounded-full flex items-center justify-center font-bold text-xl uppercase">
+                              {user.name[0]}
+                            </div>
+                            <div>
+                              <p className="font-bold text-lg">{user.name}</p>
+                              <p className="text-sm text-gray-500">{user.email}</p>
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Link
+                              to="/profile"
+                              onClick={closeDrawer}
+                              className="flex items-center gap-3 w-full p-4 hover:bg-gray-50 rounded-xl transition-colors font-semibold"
+                            >
+                              <User size={20} />
+                              Profile Settings
+                            </Link>
+                            <Link
+                              to="/orders"
+                              onClick={closeDrawer}
+                              className="flex items-center gap-3 w-full p-4 hover:bg-gray-50 rounded-xl transition-colors font-semibold"
+                            >
+                              <ShoppingBag size={20} />
+                              My Orders
+                            </Link>
+                            <Link
+                              to="/wishlist"
+                              onClick={closeDrawer}
+                              className="flex items-center gap-3 w-full p-4 hover:bg-gray-50 rounded-xl transition-colors font-semibold"
+                            >
+                              <Heart size={20} />
+                              Wishlist
+                            </Link>
+                          </div>
+
+                          <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-3 w-full p-4 text-red-500 hover:bg-red-50 rounded-xl transition-colors font-bold mt-auto"
+                          >
+                            <LogOut size={20} />
+                            Sign Out
+                          </button>
+                        </div>
+                      ) : (
+                        <form onSubmit={handleAuthSubmit} className="space-y-5">
+                          <div className="grid grid-cols-2 text-center uppercase text-[14px] font-bold border-b mb-6">
+                            <button
+                              type="button"
+                              onClick={() => { setAuthMode("login"); setAuthError(""); }}
+                              className={`pb-4 transition-all ${authMode === "login" ? "border-b-2 border-black" : "text-gray-400"}`}
+                            >
+                              Login
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => { setAuthMode("register"); setAuthError(""); }}
+                              className={`pb-4 transition-all ${authMode === "register" ? "border-b-2 border-black" : "text-gray-400"}`}
+                            >
+                              Register
+                            </button>
+                          </div>
+
+                          {authError && (
+                            <div className="p-3 bg-red-50 text-red-600 text-xs font-semibold rounded-lg text-center">
+                              {authError}
+                            </div>
+                          )}
+
+                          {authMode === "register" && (
+                            <div className="space-y-1">
+                              <label className="block text-[13px] font-bold text-gray-700">
+                                Full Name *
+                              </label>
+                              <input
+                                required
+                                value={authData.name}
+                                onChange={(e) => setAuthData({ ...authData, name: e.target.value })}
+                                className="w-full h-[44px] border rounded-[4px] px-3 outline-none focus:border-black transition-all"
+                                placeholder="John Doe"
+                              />
+                            </div>
+                          )}
+
+                          <div className="space-y-1">
+                            <label className="block text-[13px] font-bold text-gray-700">
+                              {authMode === "login" ? "Username or email *" : "Email address *"}
+                            </label>
+                            <input
+                              required
+                              type="email"
+                              value={authData.email}
+                              onChange={(e) => setAuthData({ ...authData, email: e.target.value })}
+                              className="w-full h-[44px] border rounded-[4px] px-3 outline-none focus:border-black transition-all"
+                              placeholder="your@email.com"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="block text-[13px] font-bold text-gray-700">
+                              Password *
+                            </label>
+                            <input
+                              required
+                              type="password"
+                              value={authData.password}
+                              onChange={(e) => setAuthData({ ...authData, password: e.target.value })}
+                              className="w-full h-[44px] border rounded-[4px] px-3 outline-none focus:border-black transition-all"
+                              placeholder="••••••••"
+                            />
+                          </div>
+
+                          {authMode === "login" && (
+                            <label className="flex items-center gap-2 text-[13px] font-medium text-gray-600 cursor-pointer">
+                              <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
+                              Remember me
+                            </label>
+                          )}
+
+                          <button
+                            type="submit"
+                            disabled={authLoading}
+                            className="w-full h-[52px] bg-[#203f2c] text-white rounded-[4px] font-bold uppercase tracking-wider hover:bg-black transition-all flex items-center justify-center gap-3"
+                          >
+                            {authLoading ? <Loader2 size={20} className="animate-spin" /> : (authMode === "login" ? "Login" : "Register")}
+                          </button>
+
+                          {authMode === "login" && (
+                            <p className="text-center text-[13px] font-medium text-gray-500 hover:text-black cursor-pointer transition-all">
+                              Lost your password?
+                            </p>
+                          )}
+                        </form>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </div>
         )}
       </AnimatePresence>
 
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-[9999]">
+          <div
+            onClick={() => setMobileOpen(false)}
+            className="absolute inset-0 bg-black/40"
+          />
+          <div className="absolute left-0 top-0 h-full w-[310px] bg-white p-5">
+            <div className="flex justify-between items-center border-b pb-4">
+              <img src="/logo/logo.avif" alt="Logo" className="h-10" />
+              <button onClick={() => setMobileOpen(false)}>
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className="mt-5 space-y-2">
+              <Link to="/" onClick={() => setMobileOpen(false)} className="block py-3 font-semibold">Home</Link>
+              <Link to="/shop" onClick={() => setMobileOpen(false)} className="block py-3 font-semibold">Shop</Link>
+              <Link to="/wishlist" onClick={() => setMobileOpen(false)} className="block py-3 font-semibold">Wishlist</Link>
+
+              {user ? (
+                <>
+                  <Link to="/profile" onClick={() => setMobileOpen(false)} className="block py-3 font-semibold">My Profile</Link>
+                  <button onClick={handleLogout} className="block w-full text-left py-3 font-semibold text-red-500">Sign Out</button>
+                </>
+              ) : (
+                <button
+                  onClick={() => { setMobileOpen(false); openDrawer("signin"); }}
+                  className="block w-full text-left py-3 font-semibold"
+                >
+                  Sign In / Register
+                </button>
+              )}
+
+              {navLinks.map((item) => (
+                <Link key={item.name} to={item.path} onClick={() => setMobileOpen(false)} className="block py-3 font-semibold">
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <style>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e5e5; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d4aa72; }
       `}</style>
     </>
   );

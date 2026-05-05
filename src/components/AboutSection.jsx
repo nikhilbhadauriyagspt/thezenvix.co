@@ -13,8 +13,8 @@ import {
 } from "lucide-react";
 
 // Using .avif versions which are already available
-import leftPrinterImg from "/about/printer-left.avif";
-import rightPrinterImg from "/about/printer-right.avif";
+import leftPrinterImg from "/about/main_about.avif";
+import rightPrinterImg from "/about/main_about.avif";
 
 export default function AboutSection() {
   const features = [
@@ -103,7 +103,7 @@ export default function AboutSection() {
                 <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
                   <div className="w-8 h-[2px] bg-[#05718A]"></div>
                   <h2 className="text-xl md:text-2xl font-bold tracking-widest text-[#05718A] uppercase leading-none">
-                    About Print Sphere
+                    About The Zenvix
                   </h2>
                 </div>
                 <h3 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-6">

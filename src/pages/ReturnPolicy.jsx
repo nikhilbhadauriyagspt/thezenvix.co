@@ -15,7 +15,7 @@ export default function ReturnPolicy() {
 
       <h2>Return Process</h2>
       <p>
-        To return an item, please email customer service at <a href="mailto:info@printsphere.co">info@printsphere.co</a> to obtain an Return Merchandise Authorization (RMA) number.
+        To return an item, please email customer service at <a href="mailto:info@thezenvix.co">info@thezenvix.co</a> to obtain an Return Merchandise Authorization (RMA) number.
       </p>
       <div className="bg-gray-50 p-8 rounded-sm border border-border mt-6 not-prose">
         <p className="font-medium text-gray-500 mb-4 ">After receiving an RMA number, please contact us for further instructions on how to return your item securely.</p>
@@ -40,7 +40,7 @@ export default function ReturnPolicy() {
       <div className="bg-gray-50 p-8 rounded-sm border border-border my-8 not-prose">
         <address className="not- text-gray-700 font-bold leading-relaxed space-y-3">
           <p className="flex items-center gap-3 text-primary font-extrabold ">
-            <a href="mailto:info@printsphere.co" className="hover:underline">info@printsphere.co</a>
+            <a href="mailto:info@thezenvix.co" className="hover:underline">info@thezenvix.co</a>
           </p>
           <p className="text-[10px] text-gray-400 font-bold  tracking-[0.2em]">Contact support for immediate assistance</p>
         </address>

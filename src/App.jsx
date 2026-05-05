@@ -48,6 +48,7 @@ const OrderManager = lazy(() => import('./pages/admin/OrderManager'));
 const ContactManager = lazy(() => import('./pages/admin/ContactManager'));
 const NewsletterManager = lazy(() => import('./pages/admin/NewsletterManager'));
 const UserManager = lazy(() => import('./pages/admin/UserManager'));
+const ImageManager = lazy(() => import('./pages/admin/ImageManager'));
 
 // Loading component
 const PageLoader = () => (
@@ -101,7 +102,7 @@ function App() {
                 <Route path="/checkout" element={<ShopLayout><Checkout /></ShopLayout>} />
                 <Route path="/orders" element={<ShopLayout><Orders /></ShopLayout>} />
                 <Route path="/track-order" element={<ShopLayout><Orders /></ShopLayout>} />
-                <Route path="/faq" element={<ShopLayout><FAQ /></ShopLayout>} />
+                <Route path="/faqs" element={<ShopLayout><FAQ /></ShopLayout>} />
                 <Route path="/profile" element={<ShopLayout><Profile /></ShopLayout>} />
                 <Route path="/privacy-policy" element={<ShopLayout><PrivacyPolicy /></ShopLayout>} />
                 <Route path="/cookie-policy" element={<ShopLayout><CookiePolicy /></ShopLayout>} />
@@ -126,6 +127,7 @@ function App() {
                   <Route path="contacts" element={<ContactManager />} />
                   <Route path="newsletter" element={<NewsletterManager />} />
                   <Route path="users" element={<UserManager />} />
+                  <Route path="images" element={<ImageManager />} />
                   <Route path="settings" element={<div>Settings (Coming Soon)</div>} />
                 </Route>
               </Routes>

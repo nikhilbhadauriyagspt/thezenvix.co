@@ -1,19 +1,13 @@
-import React, { useMemo, useState, useEffect, useCallback } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
-import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
-import Heart from 'lucide-react/dist/esm/icons/heart';
-import ArrowLeftRight from 'lucide-react/dist/esm/icons/arrow-left-right';
+import Heart from "lucide-react/dist/esm/icons/heart";
+import Eye from "lucide-react/dist/esm/icons/eye";
+import Layers from "lucide-react/dist/esm/icons/layers";
 import { useCart } from "../context/CartContext";
 
-export default function PremiumProductGrid({
-  products = [],
-  loading = false,
-}) {
-  const { addToCart, toggleWishlist, isInWishlist, toggleCompare, isInCompare } = useCart();
-
-  const [newIndex, setNewIndex] = useState(0);
-  const [featuredIndex, setFeaturedIndex] = useState(0);
+export default function PremiumProductGrid({ products = [], loading = false }) {
+  const { addToCart, toggleWishlist, isInWishlist, toggleCompare } = useCart();
+  const [activeTab, setActiveTab] = useState("latest");
 
   const getImagePath = (images) => {
     try {
@@ -32,225 +26,115 @@ export default function PremiumProductGrid({
     return Number.isNaN(num) ? 0 : num;
   };
 
-  const newProducts = useMemo(() => products.slice(0, 9), [products]);
-  const featuredProducts = useMemo(() => products.slice(9, 18), [products]);
+  const latestProducts = useMemo(() => products.slice(0, 10), [products]);
+  const featuredProducts = useMemo(() => products.slice(10, 20), [products]);
+  const bestProducts = useMemo(() => products.slice(20, 30), [products]);
 
-  const [visibleCount, setVisibleCount] = useState(3);
+  const currentProducts =
+    activeTab === "latest"
+      ? latestProducts
+      : activeTab === "featured"
+        ? featuredProducts
+        : bestProducts;
 
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      let count = 3;
-      if (width < 640) count = 1;
-      else if (width < 1024) count = 2;
-      else if (width < 1280) count = 3; // Single column, show 3
-      else if (width < 1600) count = 2; // Two columns, show 2 to give buttons space
-      else count = 3; // Very large screens, show 3
-      setVisibleCount(count);
-    };
-
-    handleResize();
-    let timeoutId;
-    const debouncedResize = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(handleResize, 150);
-    };
-
-    window.addEventListener("resize", debouncedResize, { passive: true });
-    return () => {
-      window.removeEventListener("resize", debouncedResize);
-      clearTimeout(timeoutId);
-    };
-  }, []);
-
-  const maxNewIndex = Math.max(0, newProducts.length - visibleCount);
-  const maxFeaturedIndex = Math.max(0, featuredProducts.length - visibleCount);
-
-  const nextNew = useCallback(() => {
-    setNewIndex((prev) => (prev >= maxNewIndex ? 0 : prev + 1));
-  }, [maxNewIndex]);
-
-  const prevNew = () => setNewIndex((prev) => (prev <= 0 ? maxNewIndex : prev - 1));
-
-  const nextFeatured = useCallback(() => {
-    setFeaturedIndex((prev) => (prev >= maxFeaturedIndex ? 0 : prev + 1));
-  }, [maxFeaturedIndex]);
-
-  const prevFeatured = () => setFeaturedIndex((prev) => (prev <= 0 ? maxFeaturedIndex : prev - 1));
-
-  useEffect(() => {
-    if (loading || newProducts.length <= visibleCount) return;
-    const timer = setInterval(nextNew, 5000);
-    return () => clearInterval(timer);
-  }, [nextNew, loading, newProducts.length, visibleCount]);
-
-  useEffect(() => {
-    if (loading || featuredProducts.length <= visibleCount) return;
-    const timer = setInterval(nextFeatured, 6000);
-    return () => clearInterval(timer);
-  }, [nextFeatured, loading, featuredProducts.length, visibleCount]);
-
-  const ProductCard = ({ product }) => {
+  const ProductCard = ({ product, index }) => {
     const price = normalizePrice(product.price);
     const salePrice = normalizePrice(product.sale_price);
     const hasSale = salePrice > 0 && salePrice < price;
     const finalPrice = hasSale ? salePrice : price;
-
     const inWishlist = isInWishlist(product.id);
-    const inCompare = isInCompare(product.id);
 
     return (
-      <div className="w-full shrink-0 px-[8px] h-full will-change-transform">
-        <div className="bg-white p-0 h-full flex flex-col border border-slate-100 transition-shadow hover:shadow-lg rounded-none transform-gpu">
-          <div className="relative bg-white h-[250px] md:h-[280px] flex items-center justify-center px-6 pt-8 pb-4">
+      <div className="group">
+        <div className="relative h-[338px] bg-[#f1f1f1] rounded-[9px] overflow-hidden flex items-center justify-center p-8">
+          {hasSale && (
+            <span className="absolute top-4 left-4 z-20 bg-[#d94438] text-white text-[14px] font-bold px-4 py-2 rounded-full">
+              -10%
+            </span>
+          )}
+
+          <Link
+            to={`/product/${product.slug}`}
+            className="w-full h-full flex items-center justify-center"
+          >
+            <img
+              src={getImagePath(product.images)}
+              alt={product.name}
+              className="max-w-full max-h-[240px] object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
+              onError={(e) => {
+                e.currentTarget.src = "/logo/fabicon.avif";
+              }}
+              loading="lazy"
+            />
+          </Link>
+
+          <div className="absolute top-5 right-4 flex flex-col gap-3 opacity-0 translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+            <div className="relative group/tooltip">
+              <button
+                onClick={() => toggleWishlist(product)}
+                className="w-[46px] h-[46px] rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-black hover:text-white transition"
+              >
+                <Heart size={18} fill={inWishlist ? "currentColor" : "none"} />
+              </button>
+              <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-black text-white text-[12px] px-2 py-1 rounded opacity-0 group-hover/tooltip:opacity-100 transition whitespace-nowrap pointer-events-none">
+                {inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+              </span>
+            </div>
+
+            <div className="relative group/tooltip">
+              <button
+                onClick={() => toggleCompare(product)}
+                className="w-[46px] h-[46px] rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-black hover:text-white transition"
+              >
+                <Layers size={17} />
+              </button>
+              <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-black text-white text-[12px] px-2 py-1 rounded opacity-0 group-hover/tooltip:opacity-100 transition whitespace-nowrap pointer-events-none">
+                Compare
+              </span>
+            </div>
+
+            <div className="relative group/tooltip">
+              <Link
+                to={`/product/${product.slug}`}
+                className="w-[46px] h-[46px] rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-black hover:text-white transition"
+              >
+                <Eye size={17} />
+              </Link>
+              <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-black text-white text-[12px] px-2 py-1 rounded opacity-0 group-hover/tooltip:opacity-100 transition whitespace-nowrap pointer-events-none">
+                Quick View
+              </span>
+            </div>
+          </div>
+
+          <button
+            onClick={() => addToCart(product)}
+            className="absolute left-4 right-4 bottom-4 h-[46px] rounded-full bg-white text-black text-[15px] font-bold opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-black hover:text-white"
+          >
+            Add to cart
+          </button>
+        </div>
+
+        <div className="pt-4">
+          <Link to={`/product/${product.slug}`}>
+            <h3 className="text-[16px] font-bold text-[#151515] leading-snug line-clamp-2 hover:text-[#d4aa72] transition">
+              {product.name}
+            </h3>
+          </Link>
+
+          <div className="mt-3 flex items-center gap-2">
+            <span
+              className={`text-[16px] font-bold ${hasSale ? "text-[#d94438]" : "text-black"
+                }`}
+            >
+              ${finalPrice.toFixed(2)}
+            </span>
+
             {hasSale && (
-              <span className="absolute top-4 left-4 bg-red-50 text-red-600 text-[12px] font-bold px-3 py-1 uppercase tracking-wider z-10">
-                Sale
+              <span className="text-[15px] text-gray-500 line-through">
+                ${price.toFixed(2)}
               </span>
             )}
-
-            <Link
-              to={`/product/${product.slug}`}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <img
-                src={getImagePath(product.images)}
-                alt={product.name}
-                className="max-h-[180px] md:max-h-[210px] max-w-full object-contain transition-transform duration-500 hover:scale-[1.05]"
-                onError={(e) => {
-                  e.currentTarget.src = "/logo/fabicon.avif";
-                }}
-                loading="lazy"
-              />
-            </Link>
           </div>
-
-          <div className="px-5 pb-6 flex flex-col flex-1">
-            <Link to={`/product/${product.slug}`}>
-              <h3 className="text-[15px] md:text-[16px] leading-[1.4] text-[#1d1d1d] font-semibold line-clamp-2 min-h-[44px] hover:text-[#05718A] transition-colors mb-3">
-                {product.name}
-              </h3>
-            </Link>
-
-            <div className="mt-auto">
-              <div className="flex items-center gap-2 mb-5">
-                <span className="text-[18px] font-bold text-[#05718A]">
-                  ${finalPrice.toFixed(2)}
-                </span>
-                {hasSale && (
-                  <span className="text-[14px] text-slate-400 line-through">
-                    ${price.toFixed(2)}
-                  </span>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2 mb-5">
-                <span className="text-[14px] text-[#575757]">From</span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => addToCart(product)}
-                  className="flex-1 h-[40px] rounded-full border border-[#05718A] text-[#05718A] text-[14px] font-bold uppercase tracking-wider hover:bg-[#05718A] hover:text-white transition-all"
-                >
-                  Quick Add
-                </button>
-                <button
-                  onClick={() => toggleWishlist(product)}
-                  aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
-                  className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${inWishlist ? 'bg-red-50' : 'bg-white'}`}
-                  title="Wishlist"
-                >
-                  <Heart size={18} fill={inWishlist ? "currentColor" : "none"} />
-                </button>
-                <button
-                  onClick={() => toggleCompare(product)}
-                  aria-label={inCompare ? "Remove from compare" : "Add to compare"}
-                  className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${inCompare ? 'bg-blue-50 text-[#05718A] border-blue-200' : 'bg-white text-slate-400 border-slate-200 hover:text-[#05718A] hover:border-blue-200'}`}
-                  title="Compare"
-                >
-                  <ArrowLeftRight size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const SliderBlock = ({
-    title,
-    items,
-    currentIndex,
-    onPrev,
-    onNext,
-    maxIndex,
-    isNew
-  }) => {
-    return (
-      <div className="w-full">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-[22px] md:text-[28px] font-bold text-[#1d1d1d] flex items-center gap-3">
-            <span className={`w-2 h-8 ${isNew ? 'bg-[#05718A]' : 'bg-red-500'}`}></span>
-            {title}
-          </h2>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onPrev}
-              aria-label={`Previous ${title}`}
-              className="w-10 h-10 border border-slate-200 bg-white flex items-center justify-center hover:bg-[#05718A] hover:text-white transition-colors"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={onNext}
-              aria-label={`Next ${title}`}
-              className="w-10 h-10 border border-slate-200 bg-white flex items-center justify-center hover:bg-[#05718A] hover:text-white transition-colors"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-        </div>
-
-        <div className="relative">
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-700 cubic-bezier(0.4, 0, 0.2, 1) transform-gpu"
-              style={{
-                transform: `translate3d(-${currentIndex * (100 / visibleCount)}%, 0, 0)`,
-                willChange: 'transform'
-              }}
-            >
-              {items.map((product) => (
-                <div
-                  key={product.id}
-                  className="shrink-0"
-                  style={{ width: `${100 / visibleCount}%` }}
-                >
-                  <ProductCard product={product} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {items.length > visibleCount && (
-            <div className="flex items-center justify-center gap-2 mt-8">
-              {Array.from({
-                length: Math.max(1, items.length - visibleCount + 1),
-              }).map((_, i) => (
-                <button
-                  key={i}
-                  aria-label={`Go to ${title} slide ${i + 1}`}
-                  onClick={() =>
-                    isNew ? setNewIndex(i) : setFeaturedIndex(i)
-                  }
-                  className={`h-1 transition-all duration-300 ${i === currentIndex ? "w-8 bg-[#05718A]" : "w-4 bg-slate-200 hover:bg-slate-300"
-                    }`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     );
@@ -258,21 +142,12 @@ export default function PremiumProductGrid({
 
   if (loading) {
     return (
-      <section className="w-full bg-[#f5f5f5] py-16">
-        <div className="max-w-[1700px] mx-auto px-4 md:px-0">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
-            {[1, 2].map((block) => (
-              <div key={block}>
-                <div className="h-10 w-64 bg-slate-200 mb-8 animate-pulse" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {[1, 2, 3].map((card) => (
-                    <div
-                      key={card}
-                      className="bg-white h-[450px] animate-pulse"
-                    />
-                  ))}
-                </div>
-              </div>
+      <section className="w-full bg-white py-20">
+        <div className="max-w-[1600px] mx-auto px-4">
+          <div className="h-10 w-72 bg-gray-200 mx-auto mb-10 animate-pulse" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+            {[1, 2, 3, 4].map((item) => (
+              <div key={item} className="h-[430px] bg-gray-100 rounded-[9px] animate-pulse" />
             ))}
           </div>
         </div>
@@ -281,28 +156,37 @@ export default function PremiumProductGrid({
   }
 
   return (
-    <section className="w-full bg-[#f5f5f5] py-16">
-      <div className="max-w-[1700px] mx-auto px-4 md:px-0">
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 xl:gap-16">
-          <SliderBlock
-            title="Latest Arrivals"
-            items={newProducts}
-            currentIndex={newIndex}
-            onPrev={prevNew}
-            onNext={nextNew}
-            maxIndex={maxNewIndex}
-            isNew={true}
-          />
+    <section className="w-full bg-white py-20">
+      <div className="max-w-[1800px] mx-auto px-4">
+        <div className="text-center mb-10">
+          <h2 className="text-[34px] md:text-[40px] font-extrabold text-black">
+            Best Selling
+          </h2>
 
-          <SliderBlock
-            title="Featured Collection"
-            items={featuredProducts}
-            currentIndex={featuredIndex}
-            onPrev={prevFeatured}
-            onNext={nextFeatured}
-            maxIndex={maxFeaturedIndex}
-            isNew={false}
-          />
+          <div className="mt-7 inline-flex items-center border-b border-gray-200">
+            {[
+              { id: "latest", label: "Latest Arrivals" },
+              { id: "featured", label: "Featured Collection" },
+              { id: "best", label: "Top Printers" },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-7 pb-4 text-[16px] font-bold transition ${activeTab === tab.id
+                  ? "text-black border-b-2 border-black"
+                  : "text-gray-500 hover:text-black"
+                  }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-7">
+          {currentProducts.slice(0, 10).map((product, index) => (
+            <ProductCard key={product.id} product={product} index={index} />
+          ))}
         </div>
       </div>
     </section>
