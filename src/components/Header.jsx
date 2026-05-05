@@ -437,6 +437,7 @@ export default function Header() {
               >
                 <button
                   onClick={closeDrawer}
+                  aria-label="Close drawer"
                   className="absolute -right-[52px] top-[20px] w-[38px] h-[38px] rounded-full bg-white flex items-center justify-center shadow-lg"
                 >
                   <X size={22} />
@@ -505,6 +506,7 @@ export default function Header() {
               >
                 <button
                   onClick={closeDrawer}
+                  aria-label="Close drawer"
                   className="absolute -left-[52px] top-[20px] w-[38px] h-[38px] rounded-full bg-white flex items-center justify-center shadow-lg"
                 >
                   <X size={22} />

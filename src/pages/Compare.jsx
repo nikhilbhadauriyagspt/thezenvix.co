@@ -55,6 +55,7 @@ export default function Compare() {
                     <button
                       onClick={() => removeFromCompare(product.id)}
                       className="absolute top-4 right-4 p-1.5 bg-red-50 text-red-500 rounded-full hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                      aria-label={`Remove ${product.name} from comparison`}
                       title="Remove from compare"
                     >
                       <X size={14} />

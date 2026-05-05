@@ -42,6 +42,7 @@ export default function CartDrawer() {
             {/* Close Button */}
             <button
               onClick={closeCartDrawer}
+              aria-label="Close cart drawer"
               className="absolute -left-[52px] top-[20px] w-[38px] h-[38px] rounded-full bg-white flex items-center justify-center shadow-lg"
             >
               <X size={22} />

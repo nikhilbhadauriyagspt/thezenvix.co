@@ -322,6 +322,7 @@ export default function ProductDetail() {
 
                 <button
                   onClick={handleShare}
+                  aria-label="Share product"
                   className="w-11 h-11 rounded-full bg-[#f7f7f7] flex items-center justify-center hover:bg-black hover:text-white transition"
                 >
                   <Share2 size={18} />
