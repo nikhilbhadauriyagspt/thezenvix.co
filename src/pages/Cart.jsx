@@ -109,6 +109,7 @@ export default function Cart() {
 
                     <button
                       onClick={() => removeFromCart(item.id)}
+                      aria-label={`Remove ${item.name} from cart`}
                       className="w-11 h-11 rounded-full bg-[#f7f7f7] flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition shrink-0"
                     >
                       <Trash2 size={18} />
@@ -126,6 +127,7 @@ export default function Cart() {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity - 1)
                           }
+                          aria-label="Decrease quantity"
                           disabled={item.quantity <= 1}
                           className="w-11 h-11 flex items-center justify-center hover:bg-black hover:text-white transition disabled:opacity-30"
                         >
@@ -140,6 +142,7 @@ export default function Cart() {
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
+                          aria-label="Increase quantity"
                           className="w-11 h-11 flex items-center justify-center hover:bg-black hover:text-white transition"
                         >
                           <Plus size={15} strokeWidth={3} />
