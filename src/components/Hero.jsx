@@ -31,12 +31,16 @@ export default function Hero({ products = [] }) {
       <div className="relative max-w-[1800px] mx-auto h-[750px]">
         {/* Main Banner */}
         <div className="relative h-full rounded-[20px] overflow-hidden bg-[#d7c4ad]">
-          <img
-            src="/banner/new-banner/banner_02.png"
-            alt="Printer hero"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            fetchPriority="high"
-          />
+          <picture>
+            <source srcSet="/banner/new-banner/banner_02.avif" type="image/avif" />
+            <source srcSet="/banner/new-banner/banner_02.webp" type="image/webp" />
+            <img
+              src="/banner/new-banner/banner_02.png"
+              alt="Printer hero"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+              fetchpriority="high"
+            />
+          </picture>
           <div className="absolute inset-0 bg-black/10" />
         </div>
 

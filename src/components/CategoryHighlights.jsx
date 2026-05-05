@@ -4,32 +4,32 @@ import { Link } from "react-router-dom";
 const categories = [
     {
         name: "Inkjet Printers",
-        image: "/banner/category-imges/inkjet-printers.png",
-        webp: "/banner/category-imges/inkjet-printers.webp",
+        image: "/banner/category-imges/inkjet-printers_med.avif",
+        webp: "/banner/category-imges/inkjet-printers_med.webp",
         link: "/shop?category=inkjet-printers",
     },
     {
         name: "Laser Printers",
-        image: "/banner/category-imges/laser-printers.png",
-        webp: "/banner/category-imges/laser-printers.webp",
+        image: "/banner/category-imges/laser-printers_med.avif",
+        webp: "/banner/category-imges/laser-printers_med.webp",
         link: "/shop?category=laser-printers",
     },
     {
         name: "Large Format",
-        image: "/banner/category-imges/large-format-printers.png",
-        webp: "/banner/category-imges/large-format-printers.webp",
+        image: "/banner/category-imges/large-format-printers_med.avif",
+        webp: "/banner/category-imges/large-format-printers_med.webp",
         link: "/shop?category=large-format-printers",
     },
     {
         name: "Supertank Printers",
-        image: "/banner/category-imges/supertank-printers.png",
-        webp: "/banner/category-imges/supertank-printers.webp",
+        image: "/banner/category-imges/supertank-printers_med.avif",
+        webp: "/banner/category-imges/supertank-printers_med.webp",
         link: "/shop?category=supertank-printers",
     },
     {
         name: "Printer Accessories",
-        image: "/banner/category-imges/printer-accessories.png",
-        webp: "/banner/category-imges/printer-accessories.webp",
+        image: "/banner/category-imges/printer-accessories_med.avif",
+        webp: "/banner/category-imges/printer-accessories_med.webp",
         link: "/shop?category=printer-accessories",
     },
 ];
@@ -55,9 +55,10 @@ export default function CategoryHighlights() {
                             className="relative h-[550px] rounded-[18px] overflow-hidden group cursor-pointer block bg-gray-100"
                         >
                             <picture>
+                                <source srcSet={cat.image} type="image/avif" />
                                 <source srcSet={cat.webp} type="image/webp" />
                                 <img
-                                    src={cat.image}
+                                    src={cat.image.replace('.avif', '.png')}
                                     alt={cat.name}
                                     width="413"
                                     height="689"

@@ -265,7 +265,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="shrink-0">
             <img
-              src="/logo/logo.avif"
+              src="/logo/logo_thumb.avif"
               alt="Logo"
               className="h-[60px] w-auto object-contain"
             />
