@@ -159,10 +159,6 @@ export default function Footer() {
         <div className="border-t border-black py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px] text-gray-500">
           <p>© {new Date().getFullYear()} The Zenvix. All rights reserved.</p>
 
-          <div className="flex items-center gap-4 py-2 px-4 bg-gray-50 rounded-lg border border-gray-100">
-            <ShieldCheck size={16} className="text-[#d4aa72]" />
-            <span className="font-bold text-[11px] uppercase tracking-widest text-black">Secure Checkout & Official Warranty</span>
-          </div>
 
           <div className="flex flex-wrap justify-center gap-5">
             <Link to="/shipping-policy" className="hover:text-[#d4aa72] transition">

@@ -9,6 +9,7 @@ const folders = [
   'public/about',
   'public/midbanner',
   'public/banner',
+  'public/banner/category-imges',
   'public/productsgrid',
   'public/logo'
 ];
