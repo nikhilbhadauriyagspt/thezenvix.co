@@ -106,7 +106,7 @@ function App() {
                 <Route path="/profile" element={<ShopLayout><Profile /></ShopLayout>} />
                 <Route path="/privacy-policy" element={<ShopLayout><PrivacyPolicy /></ShopLayout>} />
                 <Route path="/cookie-policy" element={<ShopLayout><CookiePolicy /></ShopLayout>} />
-                <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+                <Route path="/terms-and-conditions" element={<ShopLayout><TermsAndConditions /></ShopLayout>} />
                 <Route path="/return-policy" element={<ShopLayout><ReturnPolicy /></ShopLayout>} />
                 <Route path="/shipping-policy" element={<ShopLayout><ShippingPolicy /></ShopLayout>} />
                 <Route path="/login" element={<ShopLayout><UserLogin /></ShopLayout>} />
