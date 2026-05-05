@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Mail, ArrowRight, ShieldCheck } from "lucide-react";
+import { Mail, ArrowRight } from "lucide-react";
 import API_BASE_URL from "../config";
 
 export default function Footer() {
@@ -46,7 +46,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16">
           <div>
             <Link to="/">
-              <img src="/logo/logo.avif" alt="Logo" className="h-10 mb-6" />
+              <img
+                src="/logo/logo.avif"
+                alt="The Zenvix Logo"
+                width="238"
+                height="60"
+                decoding="async"
+                className="h-10 w-auto mb-6 object-contain"
+              />
             </Link>
 
             <p className="text-[14px] text-gray-500 leading-relaxed">
@@ -56,9 +63,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-[14px] font-extrabold mb-6 uppercase text-black">
+            <h3 className="text-[14px] font-extrabold mb-6 uppercase text-black">
               Company
-            </h4>
+            </h3>
 
             <div className="space-y-3 text-[14px] text-gray-500">
               <Link to="/" className="block hover:text-[#d4aa72] transition">
@@ -77,9 +84,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-[14px] font-extrabold mb-6 uppercase text-black">
+            <h3 className="text-[14px] font-extrabold mb-6 uppercase text-black">
               Products
-            </h4>
+            </h3>
 
             <div className="space-y-3 text-[14px] text-gray-500">
               {categories.map((cat) => (
@@ -101,9 +108,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-[14px] font-extrabold mb-6 uppercase text-black">
+            <h3 className="text-[14px] font-extrabold mb-6 uppercase text-black">
               Policies
-            </h4>
+            </h3>
 
             <div className="space-y-3 text-[14px] text-gray-500">
               <Link
@@ -140,9 +147,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-[14px] font-extrabold mb-6 uppercase text-black">
+            <h3 className="text-[14px] font-extrabold mb-6 uppercase text-black">
               Contact
-            </h4>
+            </h3>
 
             <div className="flex items-center gap-3 text-[14px] text-gray-500">
               <Mail size={18} className="shrink-0 text-[#d4aa72]" />
@@ -158,7 +165,6 @@ export default function Footer() {
 
         <div className="border-t border-black py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[13px] text-gray-500">
           <p>© {new Date().getFullYear()} The Zenvix. All rights reserved.</p>
-
 
           <div className="flex flex-wrap justify-center gap-5">
             <Link to="/shipping-policy" className="hover:text-[#d4aa72] transition">
@@ -181,7 +187,12 @@ export default function Footer() {
 
         <div className="pb-12 text-[12px] text-gray-400 leading-relaxed max-w-[1200px] mx-auto text-center border-t border-slate-100 pt-8 mt-4">
           <p>
-            Welcome to our online store, your destination for quality printers and high-quality refills. We offer a wide range of devices, from simple home models to efficient machines for business use. Our collection includes inkjet and laser options, along with all the ink and toner you need to keep them running smoothly. We are committed to providing reliable products and fast shipping across the country.
+            Welcome to our online store, your destination for quality printers and
+            high-quality refills. We offer a wide range of devices, from simple home
+            models to efficient machines for business use. Our collection includes
+            inkjet and laser options, along with all the ink and toner you need to
+            keep them running smoothly. We are committed to providing reliable
+            products and fast shipping across the country.
           </p>
         </div>
       </div>

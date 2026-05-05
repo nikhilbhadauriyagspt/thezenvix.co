@@ -4,25 +4,23 @@ import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { useGlobalData } from "../context/DataContext";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Search,
-  User,
-  ShoppingBag,
-  Heart,
-  X,
-  Menu,
-  MapPin,
-  CalendarDays,
-  HelpCircle,
-  ShieldCheck,
-  Store,
-  Grid2X2,
-  ChevronDown,
-  Flame,
-  Loader2,
-  LogOut,
-  ChevronRight,
-} from "lucide-react";
+import Search from 'lucide-react/dist/esm/icons/search';
+import User from 'lucide-react/dist/esm/icons/user';
+import ShoppingBag from 'lucide-react/dist/esm/icons/shopping-bag';
+import Heart from 'lucide-react/dist/esm/icons/heart';
+import X from 'lucide-react/dist/esm/icons/x';
+import Menu from 'lucide-react/dist/esm/icons/menu';
+import MapPin from 'lucide-react/dist/esm/icons/map-pin';
+import CalendarDays from 'lucide-react/dist/esm/icons/calendar-days';
+import HelpCircle from 'lucide-react/dist/esm/icons/circle-help';
+import ShieldCheck from 'lucide-react/dist/esm/icons/shield-check';
+import Store from 'lucide-react/dist/esm/icons/store';
+import Grid2X2 from 'lucide-react/dist/esm/icons/layout-grid';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import Flame from 'lucide-react/dist/esm/icons/flame';
+import Loader2 from 'lucide-react/dist/esm/icons/loader-circle';
+import LogOut from 'lucide-react/dist/esm/icons/log-out';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
 import API_BASE_URL from "../config";
 
 export default function Header() {
@@ -89,6 +87,13 @@ export default function Header() {
 
   useEffect(() => {
     const fetchLocation = async () => {
+      // Try to get from sessionStorage first
+      const cachedCity = sessionStorage.getItem("userCity");
+      if (cachedCity) {
+        setUserCity(cachedCity);
+        return;
+      }
+
       let ipCity = "";
       try {
         const res = await fetch("https://ipwho.is/");
@@ -96,6 +101,7 @@ export default function Header() {
         if (data && data.success && data.city) {
           ipCity = data.city;
           setUserCity(ipCity);
+          sessionStorage.setItem("userCity", ipCity);
         }
       } catch (err) {
         console.error("IP Location error:", err);
@@ -148,6 +154,7 @@ export default function Header() {
               }
 
               setUserCity(finalCity);
+              sessionStorage.setItem("userCity", finalCity);
             } catch (err) {
               console.error("Reverse geocode error:", err);
               if (!ipCity) setUserCity("Your location");

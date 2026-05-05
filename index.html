@@ -28,20 +28,25 @@
   <link rel="canonical" href="https://thezenvix.co/" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/avif" sizes="32x32" href="/logo/fabicon.png">
+  <link rel="icon" type="image/avif" href="/logo/fabicon.avif">
+  <link rel="icon" type="image/png" href="/logo/fabicon.png">
   <link rel="apple-touch-icon" href="/logo/fabicon.png">
 
   <!-- Theme Color -->
   <meta name="theme-color" content="#2563EB">
 
-  <!-- 1. Preconnect to external origins -->
+  <!-- 1. Preconnect and DNS-Prefetch to external origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.inklivo.shop" crossorigin>
+  <link rel="preconnect" href="https://ipwho.is" crossorigin>
+
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link rel="preconnect" href="https://www.paypalobjects.com">
-  <link rel="preconnect" href="https://api.inklivo.shop">
-  <link rel="preconnect" href="https://ipwho.is">
+  <link rel="dns-prefetch" href="https://api.inklivo.shop">
+  <link rel="dns-prefetch" href="https://ipwho.is">
+  <link rel="dns-prefetch" href="https://www.paypalobjects.com">
+  <link rel="dns-prefetch" href="https://api.bigdatacloud.net">
 
   <!-- HTTP/3 Alt-Svc Support -->
   <meta http-equiv="alt-svc" content="h3=':443'; ma=86400">
@@ -52,6 +57,8 @@
     imagesizes="(max-width: 600px) 600px, 1200px"
     fetchpriority="high">
   <link rel="preload" as="fetch" href="https://api.inklivo.shop/public/categories" crossorigin="anonymous">
+  <link rel="preload" as="fetch" href="https://api.inklivo.shop/public/brands" crossorigin="anonymous">
+  <link rel="preload" as="fetch" href="https://api.inklivo.shop/public/products?limit=80" crossorigin="anonymous">
 
   <!-- 3. Optimized Font Loading -->
   <link rel="preload" as="style"
