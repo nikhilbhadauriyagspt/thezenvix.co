@@ -72,6 +72,7 @@ export default function PremiumProductGrid({ products = [], loading = false }) {
             <div className="relative group/tooltip">
               <button
                 onClick={() => toggleWishlist(product)}
+                aria-label={inWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
                 className="w-[46px] h-[46px] rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-black hover:text-white transition"
               >
                 <Heart size={18} fill={inWishlist ? "currentColor" : "none"} />
@@ -84,6 +85,7 @@ export default function PremiumProductGrid({ products = [], loading = false }) {
             <div className="relative group/tooltip">
               <button
                 onClick={() => toggleCompare(product)}
+                aria-label="Compare Product"
                 className="w-[46px] h-[46px] rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-black hover:text-white transition"
               >
                 <Layers size={17} />
@@ -96,6 +98,7 @@ export default function PremiumProductGrid({ products = [], loading = false }) {
             <div className="relative group/tooltip">
               <Link
                 to={`/product/${product.slug}`}
+                aria-label="View Product Details"
                 className="w-[46px] h-[46px] rounded-full bg-white flex items-center justify-center shadow-sm hover:bg-black hover:text-white transition"
               >
                 <Eye size={17} />
